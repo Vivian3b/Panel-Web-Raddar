@@ -1,0 +1,62 @@
+/* Estilos generales para el contenedor del login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  .login-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+  }
+  
+  .login-logo {
+    width: 100px;
+    margin-bottom: 5px;
+  }
+  
+  .login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .input-custom {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .login-buttons {
+    display: flex;
+    justify-content: center; /* Centrado del botón */
+    margin-top: 20px;
+  }
+  
+  .centered-button {
+    width: 100%; /* Hace que el botón ocupe el 100% del espacio disponible */
+    max-width: 300px; /* Limita el tamaño máximo del botón */
+    margin: 10px 0; /* Da espacio entre los botones */
+  }
+  
+  .register-text {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .register-text button {
+    width: 100%; /* Alinea el botón de registro también al centro */
+    max-width: 300px; /* Limita el tamaño máximo del botón */
+    margin: 10px 0;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .register-text button:hover {
+    background-color: #0056b3;
+  }
+  

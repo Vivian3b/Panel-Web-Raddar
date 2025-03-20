@@ -1,0 +1,33 @@
+<div class="login-container">
+  <!-- Caja del login -->
+  <div class="login-card">
+    <!-- Título -->
+    <h2 class="login-title">Iniciar sesión</h2>
+    
+    <!-- Formulario de login -->
+    <form [formGroup]="formLogin" class="login-form">
+      <!-- Campo para el correo -->
+      <mat-form-field class="input-custom">
+        <mat-label>Correo</mat-label>
+        <input matInput formControlName="correo" required>
+      </mat-form-field>
+      
+      <!-- Campo para la contraseña -->
+      <mat-form-field class="input-custom">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="contraseña" type="password" required>
+      </mat-form-field>
+      
+      <!-- Botón de iniciar sesión centrado -->
+      <div class="login-buttons">
+        <button mat-flat-button color="primary" (click)="iniciarSesion()" class="centered-button">Iniciar Sesión</button>
+      </div>
+    </form>
+
+    <!-- Texto para redirigir a la página de registro -->
+    <div class="register-text">
+      <p>¿No tienes cuenta? </p>
+      <button mat-flat-button color="warn" (click)="registrarse()" class="centered-button">Registrarse</button>
+    </div>
+  </div>
+</div>
