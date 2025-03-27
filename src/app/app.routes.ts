@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth.guard';
 import { SidebarComponent } from './estructura/sidebar/sidebar.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { PromocionComponent } from './pages/promocion/promocion.component';
+import { EmpresasComponent } from './pages/empresas/empresas.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirige al login al iniciar
@@ -19,10 +20,10 @@ export const routes: Routes = [
       { path: 'inicio', component: InicioComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'promociones', component: PromocionComponent },
+      { path: 'empresas', component: EmpresasComponent },
       /*{ path: 'roles', component: RolesComponent },
         { path: 'permisos', component: PermisosComponent },
         { path: 'clientes', component: ClientesComponent },
-        { path: 'empresas', component: EmpresasComponent },
         { path: 'listacat', component: ListacatComponent },
         { path: 'transacciones', component: TransaccionesComponent },
          */
