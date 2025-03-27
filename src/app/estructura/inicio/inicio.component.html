@@ -1,0 +1,39 @@
+<div class="inicio-container">
+    <h1 class="titulo">Bienvenido <!--- {{ usuario }}--></h1> 
+    <p class="descripcion">Accede rápidamente a las principales secciones del sistema.</p>
+  
+    <div class="opciones-grid">
+      <mat-card class="opcion-card" routerLink="/dashboard/usuarios">
+        <mat-card-header>
+          <mat-icon>group</mat-icon>
+          <mat-card-title>Usuarios</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>Gestión de usuarios y permisos.</mat-card-content>
+      </mat-card>
+  
+      <mat-card class="opcion-card" routerLink="/dashboard/clientes">
+        <mat-card-header>
+          <mat-icon>person</mat-icon>
+          <mat-card-title>Clientes</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>Consulta y administración de clientes.</mat-card-content>
+      </mat-card>
+  
+      <mat-card class="opcion-card" routerLink="/dashboard/movimiento">
+        <mat-card-header>
+          <mat-icon>attach_money</mat-icon>
+          <mat-card-title>Movimientos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>Visualiza las operaciones financieras.</mat-card-content>
+      </mat-card>
+  
+      <mat-card class="opcion-card" routerLink="/dashboard/promocion">
+        <mat-card-header>
+          <mat-icon>local_offer</mat-icon>
+          <mat-card-title>Promociones</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>Administra descuentos y ofertas especiales.</mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

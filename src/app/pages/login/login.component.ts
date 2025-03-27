@@ -32,6 +32,7 @@ export class LoginComponent {
   })
   
   iniciarSesion(){
+    
     if(this.formLogin.invalid) return;
 
     const objeto: Login = {
@@ -44,9 +45,12 @@ export class LoginComponent {
         if (data.accessToken && data.refreshToken) {
           localStorage.setItem("token", data.accessToken);
           localStorage.setItem("refreshToken", data.refreshToken);
-          this.router.navigate(['inicio']);
+          
+          this.router.navigate(['/dashboard/inicio']);
+          
         } else {
           alert("Credenciales incorrectas");
+          
         }        
       },
       error: (error) => {

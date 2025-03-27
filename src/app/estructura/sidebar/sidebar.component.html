@@ -1,0 +1,47 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false"
+      [attr.aria-hidden]="(isHandset$ | async) ? 'false' : 'true'"> <!-- No poner aria-hidden en el sidenav -->
+
+    <mat-toolbar>
+      <img src="" alt="" class="logo" [routerLink]="['/dashboard/inicio']">Menu
+    </mat-toolbar>
+
+    <!-- Acceso Principal fuera de menuItems -->
+    <a mat-list-item [routerLink]="principalItem.route" routerLinkActive="active">
+      <mat-icon>{{ principalItem.icon }}</mat-icon>
+      {{ principalItem.name }}
+    </a>
+
+    <mat-nav-list>
+      <mat-expansion-panel *ngFor="let category of menuItems" class="menu-category">
+        <mat-expansion-panel-header>
+          <mat-icon>{{ category.icon }}</mat-icon>
+          {{ category.name }}
+        </mat-expansion-panel-header>
+        <a *ngFor="let item of category.items" mat-list-item [routerLink]="item.route" routerLinkActive="active">
+          {{ item.name }}
+        </a>
+      </mat-expansion-panel>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon> 
+      </button>
+      <span class="title">Raddar.vip</span>
+      <span class="spacer"></span>
+      <button mat-flat-button class="btn-login" (click)="logout()">
+        Cerrar sesión
+      </button>
+      <button mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
