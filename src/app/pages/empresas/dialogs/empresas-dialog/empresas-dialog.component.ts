@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { HttpErrorResponse } from '@angular/common/http';
+import { EmpresaService } from '../../../../services/empresa.service';
 
 
 @Component({
@@ -24,7 +26,8 @@ export class EmpresasDialogComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EmpresasDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private empresaService: EmpresaService  // Inyecta el servicio aquí
   ) {
     this.form = this.fb.group({
       idempresa: [data.idempresa || null],
@@ -49,10 +52,18 @@ export class EmpresasDialogComponent {
         y: formValue.ubicacion_y
       }
     };
-    
+
     delete empresaData.ubicacion_x;
     delete empresaData.ubicacion_y;
 
-    this.dialogRef.close(empresaData);
+    // Llamar al servicio para actualizar la empresa (PATCH)
+    this.empresaService.actualizarEmpresa(empresaData).subscribe({
+      next: () => {
+        this.dialogRef.close(empresaData); // Cierra el diálogo y pasa los datos actualizados
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error al guardar la empresa:', error);
+      }
+    });
   }
 }

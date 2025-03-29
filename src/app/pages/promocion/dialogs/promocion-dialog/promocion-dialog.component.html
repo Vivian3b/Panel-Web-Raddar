@@ -1,30 +1,33 @@
-<h2 mat-dialog-title>{{ form.value.idpromocion ? 'Editar' : 'Agregar' }} Promoción</h2>
-<form [formGroup]="form">
-  <mat-form-field>
+<h2 mat-dialog-title class="dialog-title">{{ form.value.idpromocion ? 'Editar' : 'Agregar' }} Promoción</h2>
+<form [formGroup]="form" class="dialog-form">
+  <mat-form-field class="form-field">
     <mat-label>Nombre</mat-label>
-    <input matInput formControlName="nombre">
+    <input matInput formControlName="nombre" required>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="form-field">
     <mat-label>Descripción</mat-label>
-    <textarea matInput formControlName="descripcion"></textarea>
+    <textarea matInput formControlName="descripcion" required></textarea>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="form-field">
     <mat-label>Inicio</mat-label>
-    <input matInput type="date" formControlName="vigenciainicio">
+    <input matInput type="date" formControlName="vigenciainicio" required>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="form-field">
     <mat-label>Fin</mat-label>
-    <input matInput type="date" formControlName="vigenciafin">
+    <input matInput type="date" formControlName="vigenciafin" required>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="form-field">
     <mat-label>Tipo</mat-label>
-    <input matInput formControlName="tipo">
+    <input matInput formControlName="tipo" required>
   </mat-form-field>
 
-  <button mat-button color="primary" (click)="guardar()">Guardar</button>
-  <button mat-button mat-dialog-close>Cancelar</button>
+  <div class="dialog-buttons">
+    <button mat-button class="button" (click)="guardar()">Guardar</button>
+    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
+
+  </div>
 </form>

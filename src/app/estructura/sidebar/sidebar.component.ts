@@ -57,6 +57,7 @@ export class SidebarComponent {
       icon: 'business',
       items: [
         { name: 'Clientes', route: '/dashboard/clientes' },
+        { name: 'Matrices', route: '/dashboard/matriz' },
         { name: 'Empresas', route: '/dashboard/empresas' },
         { name: 'Lista de Categorías', route: '/dashboard/listacat' },
       ],

@@ -59,6 +59,11 @@ export class PromocionDialogComponent {
     // Asegura que se guarde en formato 'YYYY-MM-DD'
     return date.toISOString().split('T')[0];
   }
+
+  cerrarDialogo() {
+    this.dialogRef.close();  // Cierra el diálogo manualmente
+  }
+  
   
   
   

@@ -65,12 +65,21 @@ export class EmpresasComponent implements OnInit{
     const dialogRef = this.dialog.open(EmpresasDialogComponent, {
       data: empresa || {}
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Maneja el resultado si es necesario
-        console.log('El dialogo se cerró con resultado:', result);
+        // Verifica si la empresa fue actualizada o agregada
+        const index = this.dataSource.findIndex(emp => emp.idempresa === result.idempresa);
+        if (index !== -1) {
+          // Si ya existe, actualiza la empresa en la tabla
+          this.dataSource[index] = result;
+        } else {
+          // Si es una nueva empresa, la agrega a la lista
+          this.dataSource.push(result);
+        }
+        // Actualiza la vista con los nuevos datos
+        this.dataSource = [...this.dataSource];
       }
     });
   }
-}
+}  

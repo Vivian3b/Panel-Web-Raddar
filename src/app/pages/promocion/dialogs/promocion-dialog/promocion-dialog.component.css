@@ -1,0 +1,46 @@
+/* Acomodo general del formulario */
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Acomodo y estilo de los campos del formulario */
+  .form-field {
+    width: 100%;
+  }
+  
+  mat-form-field {
+    display: block;
+  }
+  
+  /* Alineación de los botones al final */
+  ::ng-deep .dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  ::ng-deep .button {
+    width: 45%;
+    background-color: #0DA697;
+    color: white !important;
+    font-size: 14px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor a mano cuando pasas por encima */
+  }
+
+  button:hover {
+    background-color: #0fb9a8; /* Color de fondo cuando el botón está en hover */
+}
+  
+  /* Estilo para el título */
+  .dialog-title {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
