@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatrizDialogsComponent } from './matriz-dialogs.component';
+import { MatrizDialogComponent } from './matriz-dialog.component';
 
-describe('MatrizDialogsComponent', () => {
-  let component: MatrizDialogsComponent;
-  let fixture: ComponentFixture<MatrizDialogsComponent>;
+describe('MatrizDialogComponent', () => {
+  let component: MatrizDialogComponent;
+  let fixture: ComponentFixture<MatrizDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatrizDialogsComponent]
+      imports: [MatrizDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MatrizDialogsComponent);
+    fixture = TestBed.createComponent(MatrizDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

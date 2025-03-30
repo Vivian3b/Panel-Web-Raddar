@@ -1,0 +1,34 @@
+<div class="matriz-dialog">
+    <h2 mat-dialog-title>Editar Matriz</h2>
+
+    <form [formGroup]="form" (ngSubmit)="guardarMatriz()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput formControlName="email" required />
+      </mat-form-field>
+
+      <div id="map" style="height: 300px;"></div> <!-- Aquí se mostrará el mapa -->
+
+      <!-- Mostrar las coordenadas -->
+      <div>
+        <strong>Coordenadas del marcador:</strong>
+        <p>Latitud: {{ coordenadas.lat }}</p>
+        <p>Longitud: {{ coordenadas.lng }}</p>
+      </div>
+
+      <div mat-dialog-actions>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+        <button mat-button color="primary" [disabled]="form.invalid" type="submit">Guardar</button>
+      </div>
+    </form>
+</div>

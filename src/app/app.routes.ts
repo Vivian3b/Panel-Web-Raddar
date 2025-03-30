@@ -8,6 +8,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { PromocionComponent } from './pages/promocion/promocion.component';
 import { EmpresasComponent } from './pages/empresas/empresas.component';
 import { MatrizComponent } from './pages/matriz/matriz.component';
+import { ClienteComponent } from './pages/cliente/cliente.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirige al login al iniciar
@@ -23,9 +24,9 @@ export const routes: Routes = [
       { path: 'promociones', component: PromocionComponent },
       { path: 'empresas', component: EmpresasComponent },
       { path: 'matriz', component: MatrizComponent },
+      { path: 'clientes', component: ClienteComponent },
       /*{ path: 'roles', component: RolesComponent },
         { path: 'permisos', component: PermisosComponent },
-        { path: 'clientes', component: ClientesComponent },
         { path: 'listacat', component: ListacatComponent },
         { path: 'transacciones', component: TransaccionesComponent },
          */

@@ -12,48 +12,44 @@ export class MatrizService {
 
   constructor(private http: HttpClient) {}
 
+  // Obtener matrices
   getMatrices(): Observable<Matriz[]> {
-    return this.http.get<Matriz[]>(this.apiUrl).pipe(
-      catchError(error => {
-        console.error('Error al obtener matrices:', error);
-        return throwError(() => new Error(error));
-      })
-    );
+    return this.http.get<Matriz[]>(this.apiUrl);
   }
 
-  // Crear o actualizar una matriz (con PATCH)
+  // Guardar (crear o actualizar) matriz con PATCH
   guardarMatriz(matriz: Matriz): Observable<Matriz> {
     if (matriz.idmatriz) {
-      // Usamos PATCH para actualización parcial
-      return this.http.patch<Matriz>(`${this.apiUrl}/${matriz.idmatriz}`, matriz).pipe(
-        catchError(this.handleError)
-      );
+      // Si tiene ID, actualizamos
+      const body = {
+        idmatriz: matriz.idmatriz,
+        nombre: matriz.nombre,
+        ubicacion: {
+          lat: matriz.ubicacion.y,  // Cambiar 'lat' por 'y'
+          lng: matriz.ubicacion.x   // Cambiar 'lng' por 'x'
+        },
+        telefono: matriz.telefono,
+        email: matriz.email
+      };
+
+      return this.http.patch<Matriz>(`${this.apiUrl}/${matriz.idmatriz}`, body);
     } else {
-      // Crear nueva
-      return this.http.post<Matriz>(this.apiUrl, matriz).pipe(
-        catchError(this.handleError)
-      );
+      // Si no tiene ID, creamos
+      const body = {
+        nombre: matriz.nombre,
+        ubicacion: {
+          lat: matriz.ubicacion.y,  // Cambiar 'lat' por 'y'
+          lng: matriz.ubicacion.x   // Cambiar 'lng' por 'x'
+        },
+        telefono: matriz.telefono,
+        email: matriz.email
+      };
+      return this.http.post<Matriz>(this.apiUrl, body);
     }
   }
 
   // Eliminar matriz
   eliminarMatriz(idmatriz: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${idmatriz}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  // Manejo de errores global
-  private handleError(error: any) {
-    let errorMessage = 'Error desconocido';
-    if (error.error instanceof ErrorEvent) {
-      // Error del cliente o de la red
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // El servidor respondió con un código de estado que indica un error
-      errorMessage = `Código de error: ${error.status}, mensaje: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+    return this.http.delete<void>(`${this.apiUrl}/${idmatriz}`);
   }
 }
