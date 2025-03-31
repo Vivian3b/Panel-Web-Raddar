@@ -18,7 +18,7 @@ export class PromocionService {
     return this.http.get<Promocion[]>(this.apiUrl).pipe(
       catchError(error => {
         console.error('Error al obtener promociones:', error);
-        return throwError(() => new Error(error));  // Propaga el error
+        return throwError(() => new Error(error));  
       })
     );
   }
@@ -32,7 +32,7 @@ export class PromocionService {
     return this.http.post<Promocion>(this.apiUrl, promocion, { headers }).pipe(
       catchError(error => {
         console.error('Error al crear promoción:', error);
-        return throwError(() => new Error(error));  // Propaga el error
+        return throwError(() => new Error(error));  
       })
     );
   }
@@ -65,7 +65,7 @@ export class PromocionService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {
         console.error('Error al eliminar promoción:', error);
-        return throwError(() => new Error(error));  // Propaga el error
+        return throwError(() => new Error(error));  
       })
     );
   }

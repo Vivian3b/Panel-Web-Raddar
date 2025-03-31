@@ -1,34 +1,50 @@
-<div class="matriz-dialog">
-    <h2 mat-dialog-title>Editar Matriz</h2>
+<div mat-dialog-title>Editar Matriz</div>
 
-    <form [formGroup]="form" (ngSubmit)="guardarMatriz()">
-      <mat-form-field appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" required />
-      </mat-form-field>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <!-- Campo para el nombre -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" required />
+      <mat-error *ngIf="form.get('nombre')?.hasError('required')">El nombre es obligatorio</mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" required />
-      </mat-form-field>
+    <!-- Campo para teléfono -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" required />
+      <mat-error *ngIf="form.get('telefono')?.hasError('required')">El teléfono es obligatorio</mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Correo Electrónico</mat-label>
-        <input matInput formControlName="email" required />
-      </mat-form-field>
+    <!-- Campo para correo electrónico -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Correo electrónico</mat-label>
+      <input matInput formControlName="email" required email />
+      <mat-error *ngIf="form.get('email')?.hasError('required')">El correo es obligatorio</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">Correo electrónico inválido</mat-error>
+    </mat-form-field>
 
-      <div id="map" style="height: 300px;"></div> <!-- Aquí se mostrará el mapa -->
+    <!-- Campo para latitud -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Latitud</mat-label>
+      <input matInput formControlName="latitud" required />
+      <mat-error *ngIf="form.get('latitud')?.hasError('required')">La latitud es obligatoria</mat-error>
+    </mat-form-field>
 
-      <!-- Mostrar las coordenadas -->
-      <div>
-        <strong>Coordenadas del marcador:</strong>
-        <p>Latitud: {{ coordenadas.lat }}</p>
-        <p>Longitud: {{ coordenadas.lng }}</p>
-      </div>
+    <!-- Campo para longitud -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Longitud</mat-label>
+      <input matInput formControlName="longitud" required />
+      <mat-error *ngIf="form.get('longitud')?.hasError('required')">La longitud es obligatoria</mat-error>
+    </mat-form-field>
 
-      <div mat-dialog-actions>
-        <button mat-button (click)="cerrar()">Cancelar</button>
-        <button mat-button color="primary" [disabled]="form.invalid" type="submit">Guardar</button>
-      </div>
-    </form>
+    <!-- Mapa -->
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cancelar</button>
+  <button mat-button color="primary" (click)="guardarMatriz()" [disabled]="form.invalid">Guardar</button>
 </div>

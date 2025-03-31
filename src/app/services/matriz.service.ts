@@ -12,6 +12,10 @@ export class MatrizService {
 
   constructor(private http: HttpClient) {}
 
+  // Método para crear una nueva matriz
+  crearMatriz(matriz: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, matriz);
+  }
   // Obtener matrices
   getMatrices(): Observable<Matriz[]> {
     return this.http.get<Matriz[]>(this.apiUrl);
@@ -31,7 +35,9 @@ export class MatrizService {
         telefono: matriz.telefono,
         email: matriz.email
       };
-
+  
+      console.log('Enviando PATCH:', body);  // Verifica los datos enviados
+  
       return this.http.patch<Matriz>(`${this.apiUrl}/${matriz.idmatriz}`, body);
     } else {
       // Si no tiene ID, creamos
@@ -44,9 +50,13 @@ export class MatrizService {
         telefono: matriz.telefono,
         email: matriz.email
       };
+  
+      console.log('Enviando POST:', body);  // Verifica los datos enviados
+  
       return this.http.post<Matriz>(this.apiUrl, body);
     }
   }
+  
 
   // Eliminar matriz
   eliminarMatriz(idmatriz: number): Observable<void> {
