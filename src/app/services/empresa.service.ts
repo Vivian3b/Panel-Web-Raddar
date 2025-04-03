@@ -13,53 +13,37 @@ export class EmpresaService {
   constructor(private http: HttpClient) {}
 
   crearEmpresa(empresa: Empresa): Observable<Empresa> {
-    if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
-      console.error('Coordenadas inválidas');
-      return throwError(() => new Error('Coordenadas inválidas'));
-    }
-
-    const body = {
-      usuario_idusuario: empresa.usuario_idusuario,
-      matriz_idmatriz: empresa.matriz_idmatriz,
-      nombre: empresa.nombre,
-      descripcion: empresa.descripcion,
-      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x }
-    };
-
-    return this.http.post<Empresa>(this.apiUrl, body).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error en la solicitud:', error.message);
-        return throwError(() => error);
-      })
+    return this.http.post<Empresa>(this.apiUrl, empresa).pipe(
+      catchError(this.handleError)
     );
   }
 
-  getEmpresas(): Observable<Empresa[]> {
-    return this.http.get<Empresa[]>(this.apiUrl);
+  obtenerEmpresas(): Observable<Empresa[]> {
+    return this.http.get<Empresa[]>(this.apiUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  obtenerEmpresa(idempresa: number): Observable<Empresa> {
+    return this.http.get<Empresa>(`${this.apiUrl}/${idempresa}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   actualizarEmpresa(empresa: Empresa): Observable<Empresa> {
-    if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
-      console.error('Coordenadas inválidas');
-      return throwError(() => new Error('Coordenadas inválidas'));
-    }
-
-    const body = {
-      usuario_idusuario: empresa.usuario_idusuario,
-      nombre: empresa.nombre,
-      descripcion: empresa.descripcion,
-      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x }
-    };
-
-    return this.http.patch<Empresa>(`${this.apiUrl}/${empresa.idempresa}`, body).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error en la solicitud:', error.message);
-        return throwError(() => error);
-      })
+    return this.http.patch<Empresa>(`${this.apiUrl}/${empresa.idempresa}`, empresa).pipe(
+      catchError(this.handleError)
     );
   }
 
   eliminarEmpresa(idempresa: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${idempresa}`);
+    return this.http.delete<void>(`${this.apiUrl}/${idempresa}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error en la solicitud:', error.message);
+    return throwError(() => error);
   }
 }

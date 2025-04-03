@@ -1,0 +1,53 @@
+/* Acomodo general del formulario */
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    max-width: 500px;
+    margin: auto;
+    padding: 15px;
+  }
+  
+  /* Acomodo y estilo de los campos del formulario */
+  .form-field {
+    width: 100%;
+  }
+  
+  mat-form-field {
+    display: block;
+  }
+  
+  /* Ajuste del mapa para mejor visualización */
+  .map-container {
+    height: 250px;
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  /* Alineación de los botones al final */
+  .dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+  
+  .button {
+    width: 45%;
+    background-color: #0DA697;
+    color: white !important;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #0fb9a8;
+  }
+  
+  /* Estilo para el título */
+  .dialog-title {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  

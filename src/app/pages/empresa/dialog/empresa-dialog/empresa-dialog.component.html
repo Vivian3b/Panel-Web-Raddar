@@ -1,39 +1,30 @@
-<h2 mat-dialog-title>{{ form.value.idempresa ? 'Editar' : 'Agregar' }} Empresa</h2>
-
-<form [formGroup]="form">
-  <mat-form-field appearance="fill" class="full-width">
+<h2 mat-dialog-title class="dialog-title">{{ form.value.idempresa ? 'Editar' : 'Agregar' }} Empresa</h2>
+<form [formGroup]="form" class="dialog-form">
+  <mat-form-field class="form-field">
     <mat-label>Nombre</mat-label>
-    <input matInput formControlName="nombre">
+    <input matInput formControlName="nombre" required>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
+  <mat-form-field class="form-field">
     <mat-label>Descripción</mat-label>
-    <input matInput formControlName="descripcion">
+    <input matInput formControlName="descripcion" required>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Ubicación X</mat-label>
-    <input matInput type="number" formControlName="ubicacion_x">
+  <mat-form-field class="form-field">
+    <mat-label>Matriz</mat-label>
+    <input matInput formControlName="matriz_idmatriz" required>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Ubicación Y</mat-label>
-    <input matInput type="number" formControlName="ubicacion_y">
+  <mat-form-field class="form-field">
+    <mat-label>Ubicación</mat-label>
+    <input matInput formControlName="ubicacion" required readonly>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Usuario ID</mat-label>
-    <input matInput type="number" formControlName="usuario_idusuario">
-  </mat-form-field>
+  <!-- Mapa de Leaflet -->
+  <div id="map" class="map-container"></div>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Matriz ID</mat-label>
-    <input matInput type="number" formControlName="matriz_idmatriz">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Eliminado</mat-label>
-    <input matInput type="number" formControlName="eliminado" [value]="0">
-  </mat-form-field>
-
-  <button mat-button color="primary" (click)="guardar()">Guardar</button>
+  <div class="dialog-buttons">
+    <button mat-button class="button" (click)="guardar()">Guardar</button>
+    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
+  </div>
+</form>
