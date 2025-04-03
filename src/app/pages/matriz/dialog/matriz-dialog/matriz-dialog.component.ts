@@ -1,14 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Matriz } from '../../../../interfaces/Matriz';
-import { MatrizService } from '../../../../services/matriz.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-matriz-dialog',
@@ -16,89 +12,64 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './matriz-dialog.component.html',
   styleUrl: './matriz-dialog.component.css'
 })
-export class MatrizDialogComponent implements OnInit{
+export class MatrizDialogComponent implements AfterViewInit{
   form: FormGroup;
   map!: L.Map;
   marker!: L.Marker;
-  matrizData: Matriz;
-  coordenadas: { lat: number, lng: number } = { lat: 0, lng: 0 };  // Coordenadas iniciales
 
   constructor(
-    public dialogRef: MatDialogRef<MatrizDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Matriz,
     private fb: FormBuilder,
-    private matrizService: MatrizService
+    private dialogRef: MatDialogRef<MatrizDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.matrizData = data || { idmatriz: 0, nombre: '', ubicacion: { x: 0, y: 0 }, telefono: '', email: '', eliminado: 0 };
     this.form = this.fb.group({
-      nombre: [this.matrizData.nombre, Validators.required],
-      telefono: [this.matrizData.telefono, Validators.required],
-      email: [this.matrizData.email, [Validators.required, Validators.email]],
-      latitud: [this.matrizData.ubicacion.y, Validators.required],  // Asignar coordenadas ya existentes
-      longitud: [this.matrizData.ubicacion.x, Validators.required] // Asignar coordenadas ya existentes
+      idmatriz: [data.idmatriz || null],
+      nombre: [data.nombre || ''],
+      ubicacion: [data.ubicacion ? `${data.ubicacion.x}, ${data.ubicacion.y}` : ''],
+      telefono: [data.telefono || ''],
+      email: [data.email || '']
     });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.initializeMap();
-    this.form.get('latitud')?.valueChanges.subscribe(lat => this.marker.setLatLng([lat, this.form.get('longitud')?.value]));
-    this.form.get('longitud')?.valueChanges.subscribe(lng => this.marker.setLatLng([this.form.get('latitud')?.value, lng]));
   }
 
   initializeMap(): void {
-    // Inicializar el mapa con las coordenadas existentes
-    this.map = L.map('map').setView([this.matrizData.ubicacion.y, this.matrizData.ubicacion.x], 13);
-
-    // Usar OpenStreetMap
+    const lat = this.data?.ubicacion?.y || 19.4326;  
+    const lng = this.data?.ubicacion?.x || -99.1332;  
+  
+    console.log('Coordenadas iniciales:', lat, lng);  // Verifica las coordenadas
+  
+    // Crear el mapa con las coordenadas iniciales
+    this.map = L.map('map').setView([lat, lng], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-
-    // Crear el marcador inicial en el mapa
-    this.marker = L.marker([this.matrizData.ubicacion.y, this.matrizData.ubicacion.x], { draggable: true }).addTo(this.map);
-
-    // Actualizar las coordenadas cuando se mueve el marcador
-    this.marker.on('dragend', (event) => {
-      const latLng = event.target.getLatLng();
-      this.coordenadas = { lat: latLng.lat, lng: latLng.lng };
-      this.form.patchValue({
-        latitud: latLng.lat,
-        longitud: latLng.lng
-      });
+  
+    // Colocar el marcador en las coordenadas iniciales
+    this.marker = L.marker([lat, lng]).addTo(this.map);
+  
+    // evento de click para actualizar el marcador
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      this.marker.setLatLng(e.latlng);
+      this.form.get('ubicacion')?.setValue(`${e.latlng.lat}, ${e.latlng.lng}`);
     });
   }
 
-  // Método para guardar los cambios de la matriz
-  guardarMatriz(): void {
-    // Verifica si el formulario es válido
-    if (this.form.invalid) {
-      console.log('Formulario inválido');
-      return; // Si el formulario es inválido, no continuamos
-    }
+  guardar() {
+    const formValue = this.form.value;
   
-    // Recoger los datos del formulario
-    const updatedMatriz = {
-      ...this.matrizData,
-      ...this.form.value,
-      ubicacion: {
-        x: this.form.get('longitud')?.value,  // Obtener las coordenadas del formulario
-        y: this.form.get('latitud')?.value
-      }
+    const latLng = this.marker.getLatLng();  // Obtiene la latitud y longitud del marcador
+    formValue.ubicacion = {
+      x: latLng.lng,  
+      y: latLng.lat   
     };
   
-    // Verifica si los valores de las coordenadas son correctos
-    console.log(updatedMatriz);
+    console.log('Form data guardado:', formValue);  // Verifica lo que se guarda
   
-    // Enviar los datos actualizados a la API usando el servicio
-    this.matrizService.guardarMatriz(updatedMatriz).subscribe({
-      next: () => this.dialogRef.close(updatedMatriz),  // Cerrar el diálogo al guardar
-      error: (err: HttpErrorResponse) => {
-        console.error('Error al guardar matriz:', err.message);  // Mostrar el error específico
-      }
-    });
+    this.dialogRef.close(formValue);
   }
   
-  
-
-  cerrar(): void {
+  cerrarDialogo() {
     this.dialogRef.close();
   }
 }

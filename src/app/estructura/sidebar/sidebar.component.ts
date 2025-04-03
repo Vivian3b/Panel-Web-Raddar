@@ -14,8 +14,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AccesoService } from '../../services/acceso.service';
 
-
-
 @Component({
   selector: 'app-sidebar',
   imports: [
@@ -47,27 +45,24 @@ export class SidebarComponent {
       name: 'Usuarios',
       icon: 'people',
       items: [
-        { name: 'Usuarios', route: '/dashboard/usuarios' },
-        { name: 'Roles', route: '/dashboard/roles' },
-        { name: 'Permisos', route: '/dashboard/permisos' },
+        { name: 'Usuarios', route: '/dashboard/usuario' },
+        { name: 'Roles', route: '/dashboard/rol' },
       ],
     },
     {
       name: 'Clientes',
       icon: 'business',
       items: [
-        { name: 'Clientes', route: '/dashboard/clientes' },
+        { name: 'Clientes', route: '/dashboard/cliente' },
         { name: 'Matrices', route: '/dashboard/matriz' },
-        { name: 'Empresas', route: '/dashboard/empresas' },
-        { name: 'Lista de Categorías', route: '/dashboard/listacat' },
+        { name: 'Empresas', route: '/dashboard/empresa' },
       ],
     },
     {
       name: 'Transacciones',
       icon: 'attach_money',
       items: [
-        { name: 'Movimientos', route: '/dashboard/transacciones' },
-        { name: 'Detalle de Movimientos', route: '/dashboard/detallemov' },
+        { name: 'Movimientos', route: '/dashboard/transaccion' },
         { name: 'Métodos de Pago', route: '/dashboard/metodopago' },
         { name: 'Tarjetas', route: '/dashboard/tarjeta' },
       ],
@@ -76,7 +71,7 @@ export class SidebarComponent {
       name: 'Promociones',
       icon: 'campaign',
       items: [
-        { name: 'Promociones', route: '/dashboard/promociones' },
+        { name: 'Promociones', route: '/dashboard/promocion' },
         { name: 'Guardados', route: '/dashboard/guardado' },
         { name: 'Notificaciones', route: '/dashboard/notificacion' },
       ],

@@ -6,12 +6,12 @@ import { authGuard } from './guards/auth.guard';
 import { SidebarComponent } from './estructura/sidebar/sidebar.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { PromocionComponent } from './pages/promocion/promocion.component';
-import { EmpresasComponent } from './pages/empresas/empresas.component';
 import { MatrizComponent } from './pages/matriz/matriz.component';
 import { ClienteComponent } from './pages/cliente/cliente.component';
+import { EmpresaComponent } from './pages/empresa/empresa.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirige al login al iniciar
+  { path: '', redirectTo: '/login', pathMatch: 'full' },  
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { 
@@ -20,14 +20,12 @@ export const routes: Routes = [
     children: [
       //{ path: 'usuarios', loadComponent: () => import('./pages/usuarios/usuarios.component').then(m => m.UsuariosComponent) },
       { path: 'inicio', component: InicioComponent },
-      { path: 'usuarios', component: UsuariosComponent },
-      { path: 'promociones', component: PromocionComponent },
-      { path: 'empresas', component: EmpresasComponent },
+      { path: 'usuario', component: UsuariosComponent },
+      { path: 'promocion', component: PromocionComponent },
+      { path: 'empresa', component: EmpresaComponent },
       { path: 'matriz', component: MatrizComponent },
-      { path: 'clientes', component: ClienteComponent },
+      { path: 'cliente', component: ClienteComponent },
       /*{ path: 'roles', component: RolesComponent },
-        { path: 'permisos', component: PermisosComponent },
-        { path: 'listacat', component: ListacatComponent },
         { path: 'transacciones', component: TransaccionesComponent },
          */
     ]

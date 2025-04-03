@@ -1,25 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Empresa } from '../../interfaces/Empresa';
+import { EmpresaService } from '../../services/empresa.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EmpresaDialogComponent } from './dialog/empresa-dialog/empresa-dialog.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { EmpresaService } from '../../services/empresa.service';
-import { Empresa } from '../../interfaces/Empresa';
 import { CommonModule } from '@angular/common';
-import { EmpresasDialogComponent } from './dialogs/empresas-dialog/empresas-dialog.component';
 
 @Component({
-  selector: 'app-empresas',
+  selector: 'app-empresa',
   imports: [
     MatTableModule,
     MatButtonModule,
     MatIconModule,
     CommonModule
   ],
-  templateUrl: './empresas.component.html',
-  styleUrl: './empresas.component.css'
+  templateUrl: './empresa.component.html',
+  styleUrl: './empresa.component.css'
 })
-export class EmpresasComponent implements OnInit{
+export class EmpresaComponent implements OnInit{
 
   displayedColumns: string[] = ['nombre', 'descripcion', 'ubicacion', 'acciones'];
   dataSource: Empresa[] = [];
@@ -62,7 +62,7 @@ export class EmpresasComponent implements OnInit{
   }
 
   abrirDialogo(empresa?: Empresa) {
-    const dialogRef = this.dialog.open(EmpresasDialogComponent, {
+    const dialogRef = this.dialog.open(EmpresaDialogComponent, {
       data: empresa || {}
     });
   

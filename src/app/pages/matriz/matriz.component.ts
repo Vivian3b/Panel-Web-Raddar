@@ -32,53 +32,56 @@ export class MatrizComponent implements OnInit{
     this.obtenerMatrices();
   }
 
-  // Obtener matrices
   obtenerMatrices() {
     this.matrizService.getMatrices().subscribe({
-      next: (data: Matriz[]) => { 
-        this.dataSource = data; 
+      next: (data) => {
+        this.dataSource = data;
       },
-      error: (error: any) => { 
-        console.error('Error al obtener matrices:', error.message); 
+      error: (error) => {
+        console.error('Error al obtener matrices:', error);
       }
     });
   }
 
-  // Eliminar una matriz
-  eliminarMatriz(idmatriz: number) {
-    this.matrizService.eliminarMatriz(idmatriz).subscribe({
-      next: () => { 
-        this.dataSource = this.dataSource.filter(m => m.idmatriz !== idmatriz); 
+  eliminarMatriz(id: number) {
+    this.matrizService.eliminarMatriz(id).subscribe({
+      next: () => {
+        this.obtenerMatrices();
       },
-      error: (error: any) => { 
-        console.error('Error al eliminar matriz:', error.message); 
+      error: (error) => {
+        console.error('Error al eliminar matriz:', error);
       }
     });
   }
 
-  // Abrir el diálogo para crear o editar una matriz
   abrirDialogo(matriz?: Matriz) {
     const dialogRef = this.dialog.open(MatrizDialogComponent, {
+      width: '400px',
       data: matriz || {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(m => m.idmatriz === result.idmatriz);
-        if (index !== -1) {
-          // Actualizar
+        if (result.idmatriz) {
           this.matrizService.guardarMatriz(result).subscribe({
             next: () => this.obtenerMatrices(),
-            error: (error: any) => console.error('Error al actualizar matriz:', error.message)
+            error: (error) => console.error('Error al actualizar matriz:', error)
           });
         } else {
-          // Crear
-          this.matrizService.guardarMatriz(result).subscribe({
+          this.matrizService.crearMatriz(result).subscribe({
             next: () => this.obtenerMatrices(),
-            error: (error: any) => console.error('Error al crear matriz:', error.message)
+            error: (error) => console.error('Error al crear matriz:', error)
           });
         }
       }
     });
+  }
+
+  // Función para formatear la ubicación de la matriz y mostrar las coordenadas
+  getUbicacion(ubicacion: any): string {
+    if (ubicacion && ubicacion.lat && ubicacion.lng) {
+      return `Lat: ${ubicacion.lat}, Lng: ${ubicacion.lng}`;
+    }
+    return 'Ubicación no disponible';
   }
 }

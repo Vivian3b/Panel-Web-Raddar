@@ -10,35 +10,56 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class EmpresaService {
   private apiUrl = `${appsettings.apiUrl}empresa`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Obtener todas las empresas
-    getEmpresas(): Observable<Empresa[]> {
-      return this.http.get<Empresa[]>(this.apiUrl).pipe(
-        catchError(error => {
-          console.error('Error al obtener empresas:', error);
-          return throwError(() => new Error(error)); 
-        })
-      );
+  crearEmpresa(empresa: Empresa): Observable<Empresa> {
+    if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
+      console.error('Coordenadas inválidas');
+      return throwError(() => new Error('Coordenadas inválidas'));
     }
 
-    actualizarEmpresa(empresa: Empresa): Observable<Empresa> {
-      return this.http.patch<Empresa>(`${this.apiUrl}/${empresa.idempresa}`, empresa).pipe(
-        catchError(error => {
-          // Imprime un error más descriptivo
-          if (error instanceof HttpErrorResponse) {
-            console.error('Error al actualizar la empresa:', error.message);  // Mensaje de error
-            console.error('Detalles del error:', error.error);  // Cuerpo del error
-          } else {
-            console.error('Error desconocido:', error);
-          }
-          return throwError(() => new Error(error.message || 'Error desconocido'));
-        })
-      );
-    }
-    
+    const body = {
+      usuario_idusuario: empresa.usuario_idusuario,
+      matriz_idmatriz: empresa.matriz_idmatriz,
+      nombre: empresa.nombre,
+      descripcion: empresa.descripcion,
+      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x }
+    };
 
-    eliminarEmpresa(idempresa: number): Observable<void> {
-      return this.http.delete<void>(`${this.apiUrl}/${idempresa}`);
+    return this.http.post<Empresa>(this.apiUrl, body).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la solicitud:', error.message);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getEmpresas(): Observable<Empresa[]> {
+    return this.http.get<Empresa[]>(this.apiUrl);
+  }
+
+  actualizarEmpresa(empresa: Empresa): Observable<Empresa> {
+    if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
+      console.error('Coordenadas inválidas');
+      return throwError(() => new Error('Coordenadas inválidas'));
     }
+
+    const body = {
+      usuario_idusuario: empresa.usuario_idusuario,
+      nombre: empresa.nombre,
+      descripcion: empresa.descripcion,
+      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x }
+    };
+
+    return this.http.patch<Empresa>(`${this.apiUrl}/${empresa.idempresa}`, body).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la solicitud:', error.message);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  eliminarEmpresa(idempresa: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${idempresa}`);
+  }
 }
