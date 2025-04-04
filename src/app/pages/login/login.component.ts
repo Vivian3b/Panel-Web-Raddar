@@ -61,11 +61,6 @@ export class LoginComponent {
           alert("Error de servidor, intenta más tarde.");
         }
       }
-
     })
-  }
-
-  registrarse(){
-    this.router.navigate(['registro'])
   }
 }

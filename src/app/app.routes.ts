@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { RegistroComponent } from './pages/registro/registro.component';
 import { InicioComponent } from './estructura/inicio/inicio.component';
 import { authGuard } from './guards/auth.guard';
 import { SidebarComponent } from './estructura/sidebar/sidebar.component';
@@ -13,7 +12,6 @@ import { EmpresaComponent } from './pages/empresa/empresa.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
   { path: 'login', component: LoginComponent },
-  { path: 'registro', component: RegistroComponent },
   { 
     path: 'dashboard', 
     component: SidebarComponent, canActivate: [authGuard],  // Protege el dashboard (y rutas hijas)
