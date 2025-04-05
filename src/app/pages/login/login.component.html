@@ -1,27 +1,23 @@
-<div class="login-container">
-  <!-- Caja del login -->
-  <div class="login-card">
-    <!-- Título -->
-    <h2 class="login-title">Iniciar sesión</h2>
-    
-    <!-- Formulario de login -->
-    <form [formGroup]="formLogin" class="login-form">
-      <!-- Campo para el correo -->
-      <mat-form-field class="input-custom">
-        <mat-label>Correo</mat-label>
-        <input matInput formControlName="correo" required>
-      </mat-form-field>
-      
-      <!-- Campo para la contraseña -->
-      <mat-form-field class="input-custom">
-        <mat-label>Contraseña</mat-label>
-        <input matInput formControlName="contraseña" type="password" required>
-      </mat-form-field>
-      
-      <!-- Botón de iniciar sesión centrado -->
-      <div class="login-buttons">
-        <button mat-flat-button color="primary" (click)="iniciarSesion()" class="centered-button">Iniciar Sesión</button>
-      </div>
-    </form>
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-image-side">
+      <img src="icons/Raddar.png" alt="Login Illustration" />
+    </div>
+    <div class="login-form-side">
+      <h2 class="login-title">Iniciar sesión</h2>
+      <form [formGroup]="formLogin" class="login-form">
+        <mat-form-field appearance="outline" class="input-custom">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="correo" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-custom">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="contraseña" type="password" required>
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="iniciarSesion()" class="login-button">
+          Iniciar Sesión
+        </button>
+      </form>
+    </div>
   </div>
 </div>

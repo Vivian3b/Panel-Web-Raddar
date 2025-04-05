@@ -7,6 +7,7 @@ import { Usuario } from '../../interfaces/Usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsuariosDialogComponent } from './dialog/usuarios-dialog/usuarios-dialog.component';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-usuarios',
@@ -20,7 +21,7 @@ import { UsuariosDialogComponent } from './dialog/usuarios-dialog/usuarios-dialo
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit {
-  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'fechaRegistro', 'fechaActualizacion','acciones'];
+  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'idcreador', 'fechaRegistro', 'fechaActualizacion','acciones'];
   dataSource: Usuario[] = [];
 
   private usuarioService = inject(UsuarioService);
@@ -62,21 +63,33 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  abrirDialogo(usuarios?: Usuario) {
-      const dialogRef = this.dialog.open(UsuariosDialogComponent, {
-        data: usuarios || {}
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          const index = this.dataSource.findIndex(emp => emp.idusuario === result.idusuario);
-          if (index !== -1) {
-            this.dataSource[index] = result;
-          } else {
-            this.dataSource.push(result);
-          }
-          this.dataSource = [...this.dataSource];
-        }
-      });
+  abrirDialogo(usuario?: Usuario) {
+    // Obtener el token y decodificarlo para obtener el idcreador
+    const token = localStorage.getItem('token');
+    let idcreador = null;
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      idcreador = decodedToken.id;  // Aquí estamos asumiendo que el id está en el token
     }
+
+    // Si estamos creando un nuevo usuario, agregar el idcreador al usuario
+    const usuarioConIdCreador = usuario ? { ...usuario, idcreador } : { idcreador };
+
+    // Abrir el diálogo con los datos del usuario (incluyendo idcreador)
+    const dialogRef = this.dialog.open(UsuariosDialogComponent, {
+      data: usuarioConIdCreador
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.dataSource.findIndex(emp => emp.idusuario === result.idusuario);
+        if (index !== -1) {
+          this.dataSource[index] = result;
+        } else {
+          this.dataSource.push(result);
+        }
+        this.dataSource = [...this.dataSource];
+      }
+    });
+  }
 }

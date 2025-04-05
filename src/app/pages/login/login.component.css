@@ -1,63 +1,67 @@
-/* Estilos generales para el contenedor del login */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
+}
+
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-  
-  .login-card {
-    background-color: #8DDCD5;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
-  }
-  
-  .login-logo {
-    width: 100px;
-    margin-bottom: 5px;
-  }
-  
-  .login-title {
-    font-size: 30px; /* Tamaño del título */
-    margin-bottom: 20px;
-    color: #000000; /* Color del título */
-  }
-  
-  .input-custom {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .login-buttons {
-    display: flex;
-    justify-content: center; /* Centrado del botón */
-    margin-top: 20px;
-  }
-  
-  .centered-button {
-    width: 100%; /* Hace que el botón ocupe el 100% del espacio disponible */
-    max-width: 300px; /* Limita el tamaño máximo del botón */
-    margin: 10px 0; /* Da espacio entre los botones */
-  }
-  
-  .register-text {
-    margin-top: 15px;
-    font-size: 14px;
-  }
-  
-  .register-text button {
-    width: 100%; /* Alinea el botón de registro también al centro */
-    max-width: 300px; /* Limita el tamaño máximo del botón */
-    margin: 10px 0;
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .register-text button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  width: 800px;
+  max-width: 95%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+/* Imagen lateral izquierda */
+.login-image-side {
+  flex: 1;
+  background: #8DDCD5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-image-side img {
+  width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+/* Formulario */
+.login-form-side {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-custom {
+  width: 100%;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #0DA697 !important;
+  color: white;
+}

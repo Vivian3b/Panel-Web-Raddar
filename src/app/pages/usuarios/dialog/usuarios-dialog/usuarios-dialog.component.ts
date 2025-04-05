@@ -8,6 +8,8 @@ import { MatDialogActions } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { jwtDecode } from 'jwt-decode';
+import { Usuario } from '../../../../interfaces/Usuario';
+import { UsuarioService } from '../../../../services/usuario.service';
 
 
 @Component({
@@ -30,10 +32,11 @@ export class UsuariosDialogComponent {
   ];
 
   form: FormGroup;
-  
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UsuariosDialogComponent>,
+    private usuarioService: UsuarioService, // Inyectar el servicio correctamente
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
@@ -57,16 +60,24 @@ export class UsuariosDialogComponent {
       if (token) {
         // Decodificar el token para obtener el id del creador (idcreador)
         const decodedToken: any = jwtDecode(token);
-        const idcreador = decodedToken.id; // Asegúrate de que el token contiene el id del usuario autenticado
+        const idcreador = decodedToken.id;
         
-        // Asignar el idcreador al formulario (si no está ya asignado)
+        // Asignar idcreador al formulario si no está ya asignado
         formValue.idcreador = formValue.idcreador || idcreador;
-
-        // Si hay actualización, establecer fecha
+  
+        // Si es una actualización, establecer fecha de actualización
         formValue.fechaactualizacion = new Date().toISOString().split('T')[0];
-
-        // Cierra el diálogo y pasa los valores del formulario
-        this.dialogRef.close(formValue);
+  
+        // Llamar al servicio para crear el usuario en la base de datos
+        this.usuarioService.createUser(formValue).subscribe({
+          next: (nuevoUsuario: Usuario) => {  // Usamos el tipo Usuario
+            console.log('Usuario creado exitosamente', nuevoUsuario);
+            this.dialogRef.close(nuevoUsuario); // Cierra el diálogo y pasa el nuevo usuario
+          },
+          error: (error) => {
+            console.error('Error al crear el usuario:', error);
+          }
+        });
       } else {
         console.error('No se encontró el token JWT');
       }

@@ -33,15 +33,7 @@
         El rol es obligatorio.
       </mat-error>
     </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>ID Creador</mat-label>
-      <input matInput formControlName="idcreador" type="number" required>
-      <mat-error *ngIf="form.get('idcreador')?.hasError('required')">
-        El ID del creador es obligatorio.
-      </mat-error>
-    </mat-form-field>
-
+    <input formControlName="idcreador" type="hidden"> 
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

@@ -17,6 +17,11 @@
       <td mat-cell *matCellDef="let element"> {{element.rol_idrol}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="idcreador">
+      <th mat-header-cell *matHeaderCellDef> ID Creador </th>
+      <td mat-cell *matCellDef="let element"> {{element.idcreador}} </td>
+    </ng-container>    
+
     <ng-container matColumnDef="fechaRegistro">
       <th mat-header-cell *matHeaderCellDef> Fecha Registro </th>
       <td mat-cell *matCellDef="let element"> {{element.fechacreacion | date: 'dd/MM/yyyy':'es-ES'}} </td>

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { appsettings } from '../settings/appsettings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Usuario } from '../interfaces/Usuario';
 import { jwtDecode } from 'jwt-decode';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +18,22 @@ export class UsuarioService {
       catchError(error => {
         console.error('Error al obtener usuarios:', error);
         return throwError(() => new Error(error));  
+      }),
+      // Aquí decodificamos el token y agregamos el idcreador a cada usuario
+      map((usuarios: Usuario[]) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const decodedToken: any = jwtDecode(token);
+          const idcreador = decodedToken.idusuario;  // El id del usuario autenticado
+          
+          // Asignamos idcreador a cada usuario
+          return usuarios.map(usuario => ({
+            ...usuario,
+            idcreador: idcreador // Asignamos el idcreador a cada usuario
+          }));
+        } else {
+          return usuarios;
+        }
       })
     );
   }
@@ -33,13 +47,13 @@ export class UsuarioService {
     if (token) {
       // Decodificar el token JWT para obtener el id del creador
       const decodedToken: any = jwtDecode(token);
-      const idcreador = decodedToken.id;  // Asegúrate de que el token contiene el id del usuario autenticado
+      const idcreador = decodedToken.idusuario;  // Asegúrate de que el token contiene el id del usuario autenticado
 
       // Agregar el idcreador al objeto usuario
       const usuarioConCreador = { ...usuario, idcreador };
 
       // Realizar la solicitud POST al backend con el idcreador incluido
-      return this.http.post<Usuario>(this.apiUrl, usuarioConCreador, { headers }).pipe(
+      return this.http.post<Usuario>(this.apiUrl, usuario, { headers }).pipe(
         catchError(error => {
           console.error('Error al crear usuario:', error);
           return throwError(() => new Error(error));  
