@@ -83,6 +83,10 @@ export class SidebarComponent {
       .pipe(map(result => result.matches));
   }
 
+  onSidenavToggle(opened: boolean) {
+    console.log('El sidenav está: ', opened ? 'abierto' : 'cerrado');
+  }
+
   logout() {
     this.accesoService.logout();
     console.log('Usuario deslogueado');

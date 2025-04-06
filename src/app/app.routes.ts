@@ -8,6 +8,7 @@ import { PromocionComponent } from './pages/promocion/promocion.component';
 import { MatrizComponent } from './pages/matriz/matriz.component';
 import { ClienteComponent } from './pages/cliente/cliente.component';
 import { EmpresaComponent } from './pages/empresa/empresa.component';
+import { RolComponent } from './pages/rol/rol.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
@@ -19,11 +20,12 @@ export const routes: Routes = [
       //{ path: 'usuarios', loadComponent: () => import('./pages/usuarios/usuarios.component').then(m => m.UsuariosComponent) },
       { path: 'inicio', component: InicioComponent },
       { path: 'usuario', component: UsuariosComponent },
-      { path: 'promocion', component: PromocionComponent },
-      { path: 'empresa', component: EmpresaComponent },
-      { path: 'matriz', component: MatrizComponent },
+      { path: 'rol', component: RolComponent },
       { path: 'cliente', component: ClienteComponent },
-      /*{ path: 'roles', component: RolesComponent },
+      { path: 'matriz', component: MatrizComponent },
+      { path: 'empresa', component: EmpresaComponent },
+      { path: 'promocion', component: PromocionComponent },
+      /*
         { path: 'transacciones', component: TransaccionesComponent },
          */
     ]

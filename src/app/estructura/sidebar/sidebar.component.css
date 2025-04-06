@@ -1,14 +1,20 @@
+.sidenav-header {
+  position: sticky; /* O puede usar position: fixed si prefieres */
+  top: 0; /* Mantenerlo en la parte superior */
+  z-index: 1000; /* Para asegurarte de que está por encima de los demás elementos */
+}
+
 .sidenav-container {
     height: 100%;
   }
   
   .sidenav {
-    background-color: #ffffff; 
-    width: 280px;
+    /*background-color: #ffffff; */
+    width: 300px;
   }
   
   .sidenav .mat-toolbar {
-    background: #d8d4d3;
+    background: #0AA59B;
   }
   
   .logo {
@@ -20,21 +26,21 @@
   .spacer {
     flex: 1;
   }
-  
+  /*
   .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
     z-index: 1;
-    background: #0AA59B;
+    background: #980aa5 !important;
     color: white;
-  }
+  }*/
   
   .btn-login {
-    background-color: #D9564A !important;
+    background-color: #22d0bf !important;
     color: #F2EBDF;
   
     &:hover {
-      background-color: #ca1f10 !important;
+      background-color: #27736B !important;
     }
   }
   
@@ -42,4 +48,62 @@
     background-color: #0AA59B !important;
     color: white;
   }
+
+  .toolbar-expanded {
+    background-color: #0AA59B;
+    color: #ffffff;
+  }
   
+  .toolbar-collapsed {
+    /*background-color: #ffffff; /* Barra de color verde */
+    color: #0AA59B;
+  }
+  
+  .title {
+    font-size: 35px;
+    font-weight: 600;
+    color: inherit; /* Heredar el color de la barra */
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .btn-login {
+    margin-right: 10px;
+  }
+
+/* Estilo para las opciones seleccionadas */
+mat-nav-list a.active {
+  background-color: #22d0bf;
+  color: white;  /*texto sea blanco cuando esté activo */
+}
+
+mat-nav-list a:hover {
+  background-color: #8DDCD5; /*al pasar el mouse */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+

@@ -1,0 +1,56 @@
+<div class="rol-container">
+    <h2 class="titulo-tabla">Roles</h2>
+    
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+      <ng-container matColumnDef="idrol">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.idrol}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="idcreador">
+        <th mat-header-cell *matHeaderCellDef> Creador ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.idcreador}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="idactualizacion">
+        <th mat-header-cell *matHeaderCellDef> Actualizado por ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.idactualizacion || '—'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fechacreacion">
+        <th mat-header-cell *matHeaderCellDef> Fecha creación </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechacreacion}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fechaactualizacion">
+        <th mat-header-cell *matHeaderCellDef> Fecha actualización </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaactualizacion || '—'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>
+        <td mat-cell *matCellDef="let element" class="acciones-cell">
+          <button mat-icon-button color="accent" (click)="abrirDialogo(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarRol(element.idrol)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+    <button mat-fab color="primary" class="fab-button" (click)="abrirDialogo()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  

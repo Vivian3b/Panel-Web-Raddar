@@ -3,13 +3,15 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false"
-      [attr.aria-hidden]="(isHandset$ | async) ? 'false' : 'true'"> <!-- No poner aria-hidden en el sidenav -->
+      [attr.aria-hidden]="(isHandset$ | async) ? 'false' : 'true'"
+      (openedChange)="onSidenavToggle($event)"> <!-- Detecta el cambio en el estado del sidenav -->
 
-    <mat-toolbar>
-      <img src="icons/Raddar.png" alt="Raddar" class="logo" [routerLink]="['/dashboard/inicio']">
-    </mat-toolbar>
+      <div class="sidenav-header">
+        <mat-toolbar>
+          <img src="icons/Raddar.png" alt="Raddar" class="logo" [routerLink]="['/dashboard/inicio']">
+        </mat-toolbar>
+      </div>
 
-    <!-- Acceso Principal fuera de menuItems -->
     <a mat-list-item [routerLink]="principalItem.route" routerLinkActive="active">
       <mat-icon>{{ principalItem.icon }}</mat-icon>
       {{ principalItem.name }}
@@ -29,7 +31,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar [ngClass]="{ 'toolbar-expanded': !drawer.opened, 'toolbar-collapsed': drawer.opened }">
       <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon> 
       </button>
