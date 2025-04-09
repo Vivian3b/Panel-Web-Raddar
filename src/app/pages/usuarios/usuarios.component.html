@@ -1,7 +1,6 @@
 <div class="user-container">
   <h2 class="titulo-tabla">Usuarios</h2>
 
-  <!-- Contenedor con clase table-container -->
   <div class="table-wrapper">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="idusuario">
@@ -16,16 +15,11 @@
 
       <ng-container matColumnDef="rol">
         <th mat-header-cell *matHeaderCellDef> Rol </th>
-        <td mat-cell *matCellDef="let element"> {{element.rol_idrol}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="idcreador">
-        <th mat-header-cell *matHeaderCellDef> ID Creador </th>
-        <td mat-cell *matCellDef="let element"> {{element.idcreador}} </td>
-      </ng-container>    
-
-      <ng-container matColumnDef="fechaRegistro">
-        <th mat-header-cell *matHeaderCellDef> Fecha Registro </th>
+        <td mat-cell *matCellDef="let element"> {{element.rol}} </td>
+      </ng-container>     
+      
+      <ng-container matColumnDef="fechaCreacion">
+        <th mat-header-cell *matHeaderCellDef> Fecha Creación </th>
         <td mat-cell *matCellDef="let element"> {{element.fechacreacion | date: 'dd/MM/yyyy':'es-ES'}} </td>
       </ng-container>
 
@@ -33,6 +27,16 @@
         <th mat-header-cell *matHeaderCellDef> Fecha Actualización </th>
         <td mat-cell *matCellDef="let element"> {{element.fechaactualizacion | date: 'dd/MM/yyyy':'es-ES'}} </td>
       </ng-container>
+
+      <ng-container matColumnDef="idcreador">
+        <th mat-header-cell *matHeaderCellDef> ID Creador </th>
+        <td mat-cell *matCellDef="let element"> {{ element.idcreador }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idactualizacion">
+        <th mat-header-cell *matHeaderCellDef> ID Actualización </th>
+        <td mat-cell *matCellDef="let element"> {{ element.idactualizacion }} </td>
+      </ng-container>      
 
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>

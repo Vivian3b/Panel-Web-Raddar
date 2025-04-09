@@ -1,0 +1,50 @@
+<div class="tarjeta-container">
+    <h2 class="titulo-tabla">Tarjetas</h2>
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="idtarjeta">
+        <th mat-header-cell *matHeaderCellDef> ID Tarjeta </th>
+        <td mat-cell *matCellDef="let element"> {{element.idtarjeta}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="metododepago_idmetododepago">
+        <th mat-header-cell *matHeaderCellDef> ID Método de Pago </th>
+        <td mat-cell *matCellDef="let element"> {{element.metododepago_idmetododepago}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="numero">
+        <th mat-header-cell *matHeaderCellDef> Número </th>
+        <td mat-cell *matCellDef="let element"> {{element.numero}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="nombrecliente">
+        <th mat-header-cell *matHeaderCellDef> Nombre Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombrecliente}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fechaexpiracion">
+        <th mat-header-cell *matHeaderCellDef> Fecha Expiración </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaexpiracion}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>
+        <td mat-cell *matCellDef="let element" class="acciones-cell">
+          <button mat-icon-button color="primary" (click)="abrirDialogo(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarTarjeta(element.idtarjeta)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <button mat-fab color="primary" class="fab-button" (click)="abrirDialogo()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  

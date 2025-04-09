@@ -17,26 +17,14 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.apiUrl).pipe(
       catchError(error => {
         console.error('Error al obtener usuarios:', error);
-        return throwError(() => new Error(error));  
+        return throwError(() => new Error(error));
       }),
-      // Aquí decodificamos el token y agregamos el idcreador a cada usuario
       map((usuarios: Usuario[]) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const decodedToken: any = jwtDecode(token);
-          const idcreador = decodedToken.idusuario;  // El id del usuario autenticado
-          
-          // Asignamos idcreador a cada usuario
-          return usuarios.map(usuario => ({
-            ...usuario,
-            idcreador: idcreador // Asignamos el idcreador a cada usuario
-          }));
-        } else {
-          return usuarios;
-        }
+        return usuarios;
       })
     );
   }
+  
 
   createUser(usuario: Usuario): Observable<Usuario> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

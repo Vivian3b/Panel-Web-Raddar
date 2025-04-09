@@ -22,7 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   styleUrl: './matriz.component.css'
 })
 export class MatrizComponent implements OnInit{
-  displayedColumns: string[] = ['nombre', 'ubicacion', 'telefono', 'email', 'acciones'];
+  displayedColumns: string[] = ['idmatriz','nombre', 'ubicacion', 'telefono', 'email', 'acciones'];
   dataSource: Matriz[] = [];
 
   private matrizService = inject(MatrizService);

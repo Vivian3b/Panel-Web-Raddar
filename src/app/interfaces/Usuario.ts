@@ -1,9 +1,10 @@
 export interface Usuario {
     idusuario: number;
-    nombre: string;
-    correo: string;
-    rol: string;
-    fechaRegistro: string;
-    fechaActualizacion: string;
+    rol_idrol: number;
+    //rol?: string;
+    correo: string; 
+    fechacreacion: string;
+    fechaactualizacion: string;
     idcreador?: number;
+    idactualizacion?: number; 
 }

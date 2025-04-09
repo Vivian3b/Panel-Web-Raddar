@@ -9,6 +9,9 @@ import { MatrizComponent } from './pages/matriz/matriz.component';
 import { ClienteComponent } from './pages/cliente/cliente.component';
 import { EmpresaComponent } from './pages/empresa/empresa.component';
 import { RolComponent } from './pages/rol/rol.component';
+import { MovimientoComponent } from './pages/movimiento/movimiento.component';
+import { MetodopagoComponent } from './pages/metodopago/metodopago.component';
+import { TarjetaComponent } from './pages/tarjeta/tarjeta.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
@@ -24,6 +27,9 @@ export const routes: Routes = [
       { path: 'cliente', component: ClienteComponent },
       { path: 'matriz', component: MatrizComponent },
       { path: 'empresa', component: EmpresaComponent },
+      { path: 'movimiento', component: MovimientoComponent },
+      { path: 'metodopago', component: MetodopagoComponent},
+      { path: 'tarjeta', component: TarjetaComponent},
       { path: 'promocion', component: PromocionComponent },
       /*
         { path: 'transacciones', component: TransaccionesComponent },

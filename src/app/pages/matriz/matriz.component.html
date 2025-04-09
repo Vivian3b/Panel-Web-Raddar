@@ -1,7 +1,12 @@
 <div class="matriz-container">
-  <h2 class="titulo-tabla">Lista de Matrices</h2>
+  <h2 class="titulo-tabla">Matrices</h2>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="idmatriz">
+      <th mat-header-cell *matHeaderCellDef> ID matriz </th>
+      <td mat-cell *matCellDef="let element"> {{element.idmatriz}} </td>
+    </ng-container>
+    
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
       <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>

@@ -21,7 +21,7 @@ import { jwtDecode } from 'jwt-decode';
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit {
-  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'idcreador', 'fechaRegistro', 'fechaActualizacion','acciones'];
+  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'fechaCreacion', 'fechaActualizacion', 'idcreador','idactualizacion','acciones'];
   dataSource: Usuario[] = [];
 
   private usuarioService = inject(UsuarioService);
@@ -34,17 +34,23 @@ export class UsuariosComponent implements OnInit {
   obtenerUsuarios() {
     this.usuarioService.getUsers().subscribe({
       next: (data) => {
-        this.dataSource = data.map(usuario => ({
-          ...usuario,
-          fechaRegistro: this.fixDate(usuario.fechaRegistro),
-          fechaActualizacion: this.fixDate(usuario.fechaActualizacion)
-        }));
+        this.dataSource = data.map(usuario => {
+          const rolTexto = usuario.rol_idrol === 1 ? 'Administrador' : 'Cliente';
+          return {
+            ...usuario,
+            rol: rolTexto,
+            fechaCreacion: this.fixDate(usuario.fechacreacion),
+            fechaActualizacion: this.fixDate(usuario.fechaactualizacion),
+            idcreador: usuario.idcreador,
+            idactualizacion: usuario.idactualizacion
+          } as Usuario;
+        });
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
       }
     });
-  }
+  }  
 
   fixDate(fecha: string): string {
     if (!fecha) return '';

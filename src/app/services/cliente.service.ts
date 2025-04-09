@@ -12,17 +12,15 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todas las promociones
     getClientes(): Observable<Cliente[]> {
       return this.http.get<Cliente[]>(this.apiUrl).pipe(
         catchError(error => {
           console.error('Error al obtener clientes:', error);
-          return throwError(() => new Error(error));  // Propaga el error
+          return throwError(() => new Error(error)); 
         })
       );
     }
   
-  // Crear una nueva promoción
     createCliente(cliente: Cliente): Observable<Cliente> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -36,7 +34,6 @@ export class ClienteService {
       );
     }
 
-    // Actualizar una promoción existente
       updateCliente(id: number, cliente: Cliente): Observable<Cliente> {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
@@ -56,7 +53,7 @@ export class ClienteService {
         );
       }
 
-    // Eliminar una promoción
+    
   deleteCliente(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {

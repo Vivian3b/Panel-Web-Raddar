@@ -2,6 +2,21 @@
   <h2 class="titulo-tabla">Promociones</h2>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="idpromocion">
+      <th mat-header-cell *matHeaderCellDef> ID Promocion </th>
+      <td mat-cell *matCellDef="let element"> {{element.idpromocion}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="empresa_idempresa">
+      <th mat-header-cell *matHeaderCellDef> ID Empresa </th>
+      <td mat-cell *matCellDef="let element"> {{element.empresa_idempresa}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="categoria_idcategoria">
+      <th mat-header-cell *matHeaderCellDef> ID Categoría </th>
+      <td mat-cell *matCellDef="let element"> {{element.categoria_idcategoria}} </td>
+    </ng-container>
+    
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
       <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>

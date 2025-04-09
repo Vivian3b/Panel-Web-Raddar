@@ -62,7 +62,7 @@ export class SidebarComponent {
       name: 'Transacciones',
       icon: 'attach_money',
       items: [
-        { name: 'Movimientos', route: '/dashboard/transaccion' },
+        { name: 'Movimientos', route: '/dashboard/movimiento' },
         { name: 'Métodos de Pago', route: '/dashboard/metodopago' },
         { name: 'Tarjetas', route: '/dashboard/tarjeta' },
       ],

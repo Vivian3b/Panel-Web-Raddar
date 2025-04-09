@@ -22,7 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './empresa.component.css'
 })
 export class EmpresaComponent implements OnInit {
-  displayedColumns: string[] = ['nombre', 'descripcion', 'ubicacion', 'acciones'];
+  displayedColumns: string[] = ['idempresa', 'usuario_idusuario', 'matriz_idmatriz', 'nombre', 'descripcion', 'ubicacion', 'acciones'];
   dataSource: Empresa[] = [];
 
   private empresaService = inject(EmpresaService);
