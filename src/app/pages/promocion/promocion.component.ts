@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PromocionComponent implements OnInit {
 
-  displayedColumns: string[] = ['idpromocion', 'empresa_idempresa', 'categoria_idcategoria', 'nombre', 'descripcion', 'vigenciainicio', 'vigenciafin', 'tipo', 'acciones'];
+  displayedColumns: string[] = ['idpromocion', 'empresa_idempresa', 'categoria_idcategoria', 'nombre', 'descripcion', 'precio', 'vigenciainicio', 'vigenciafin', 'tipo', 'acciones'];
   dataSource: Promocion[] = [];
 
   private promocionService = inject(PromocionService);

@@ -1,0 +1,50 @@
+<div class="notificacion-container">
+    <h2 class="titulo-tabla">Notificaciones</h2>
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="idnotificacion">
+        <th mat-header-cell *matHeaderCellDef> ID Notificación </th>
+        <td mat-cell *matCellDef="let notificacion"> {{ notificacion.idnotificacion }} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="cliente_idcliente">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <td mat-cell *matCellDef="let notificacion"> {{ notificacion.cliente_idcliente }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="promocion_idpromocion">
+        <th mat-header-cell *matHeaderCellDef> Promoción </th>
+        <td mat-cell *matCellDef="let notificacion"> {{ notificacion.promocion_idpromocion }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fechayhora">
+        <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
+        <td mat-cell *matCellDef="let notificacion"> {{ notificacion.fechayhora | date: 'dd/MM/yyyy HH:mm' }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="leido">
+        <th mat-header-cell *matHeaderCellDef> Leído </th>
+        <td mat-cell *matCellDef="let notificacion"> {{ notificacion.leido ? 'Sí' : 'No' }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>
+        <td mat-cell *matCellDef="let notificacion" class="acciones-cell">
+          <button mat-icon-button color="warn" (click)="eliminarNotificacion(notificacion.idnotificacion)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="abrirDialogo(notificacion)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <button mat-fab color="primary" class="fab-button" (click)="abrirDialogo()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  

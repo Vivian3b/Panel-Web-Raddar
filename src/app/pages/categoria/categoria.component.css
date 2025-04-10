@@ -1,46 +1,40 @@
-.empresa-container {
+.tabla-categorias {
     padding: 30px;
     position: relative;
   }
   
-  .titulo-tabla {
+  .tabla-categorias h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   
-  table {
+  .tabla-categorias table {
     width: 100%;
     border-collapse: collapse;
   }
   
-  .mat-header-cell {
+  .tabla-categorias .mat-header-cell {
     font-weight: bold;
     background-color: #f5f5f5;
     text-align: left;
   }
   
-  .acciones-header {
+  .tabla-categorias .acciones-header {
     text-align: center;
   }
   
-  .acciones-cell {
+  .tabla-categorias .acciones-cell {
     text-align: center;
   }
   
-  button {
+  .tabla-categorias button {
     margin: 0 5px;
   }
   
-  .fab-button {
+  .tabla-categorias .fab-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #0DA697;
-  }
-  
-  .fab-button mat-icon {
-    font-size: 24px;
-    color: white;
   }
   

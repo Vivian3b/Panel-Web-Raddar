@@ -47,6 +47,8 @@ export class SidebarComponent {
       items: [
         { name: 'Usuarios', route: '/dashboard/usuario' },
         { name: 'Roles', route: '/dashboard/rol' },
+        { name: 'Permisos', route: '/dashboard/permiso' },
+        { name: 'Módulos', route: '/dashboard/modulo' },
       ],
     },
     {
@@ -72,6 +74,7 @@ export class SidebarComponent {
       icon: 'campaign',
       items: [
         { name: 'Promociones', route: '/dashboard/promocion' },
+        { name: 'Categorías', route: '/dashboard/categoria' },
         { name: 'Guardados', route: '/dashboard/guardado' },
         { name: 'Notificaciones', route: '/dashboard/notificacion' },
       ],

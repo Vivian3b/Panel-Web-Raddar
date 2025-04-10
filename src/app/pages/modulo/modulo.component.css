@@ -1,46 +1,39 @@
-.empresa-container {
+.modulo-container {
     padding: 30px;
     position: relative;
-  }
-  
-  .titulo-tabla {
+}
+
+.titulo-tabla {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  table {
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  .mat-header-cell {
+}
+
+.mat-header-cell {
     font-weight: bold;
     background-color: #f5f5f5;
     text-align: left;
-  }
-  
-  .acciones-header {
+}
+
+.acciones-header {
     text-align: center;
-  }
-  
-  .acciones-cell {
+}
+
+.acciones-cell {
     text-align: center;
-  }
-  
-  button {
+}
+
+button {
     margin: 0 5px;
-  }
-  
-  .fab-button {
+}
+
+.fab-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #0DA697;
-  }
-  
-  .fab-button mat-icon {
-    font-size: 24px;
-    color: white;
-  }
-  
+}

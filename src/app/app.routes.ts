@@ -12,6 +12,10 @@ import { RolComponent } from './pages/rol/rol.component';
 import { MovimientoComponent } from './pages/movimiento/movimiento.component';
 import { MetodopagoComponent } from './pages/metodopago/metodopago.component';
 import { TarjetaComponent } from './pages/tarjeta/tarjeta.component';
+import { CategoriaComponent } from './pages/categoria/categoria.component';
+import { NotificacionComponent } from './pages/notificacion/notificacion.component';
+import { PermisoComponent } from './pages/permiso/permiso.component';
+import { ModuloComponent } from './pages/modulo/modulo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
@@ -24,6 +28,8 @@ export const routes: Routes = [
       { path: 'inicio', component: InicioComponent },
       { path: 'usuario', component: UsuariosComponent },
       { path: 'rol', component: RolComponent },
+      { path: 'permiso', component: PermisoComponent},
+      { path: 'modulo', component: ModuloComponent},
       { path: 'cliente', component: ClienteComponent },
       { path: 'matriz', component: MatrizComponent },
       { path: 'empresa', component: EmpresaComponent },
@@ -31,6 +37,8 @@ export const routes: Routes = [
       { path: 'metodopago', component: MetodopagoComponent},
       { path: 'tarjeta', component: TarjetaComponent},
       { path: 'promocion', component: PromocionComponent },
+      { path: 'categoria', component: CategoriaComponent},
+      { path: 'notificacion', component: NotificacionComponent},
       /*
         { path: 'transacciones', component: TransaccionesComponent },
          */

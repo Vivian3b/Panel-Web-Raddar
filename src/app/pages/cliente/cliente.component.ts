@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../interfaces/Usuario';
 
 @Component({
   selector: 'app-cliente',
@@ -25,6 +27,7 @@ export class ClienteComponent implements OnInit {
   dataSource: Cliente[] = [];
 
   private clienteService = inject(ClienteService);
+  private usuarioService = inject(UsuarioService); // Inyección del servicio de usuarios
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
@@ -32,18 +35,28 @@ export class ClienteComponent implements OnInit {
   }
 
   obtenerClientes() {
-    this.clienteService.getClientes().subscribe({
-      next: (data: Cliente[]) => {
-        this.dataSource = data.map(cliente => ({
+    Promise.all([
+      this.clienteService.getClientes().toPromise(),
+      this.usuarioService.getUsers().toPromise()
+    ])
+    .then(([cliente, usuario]) => {
+      const usuariosCliente = (usuario || [])
+        .filter((u: Usuario) => u.rol_idrol === 2)
+        .map((u: Usuario) => u.idusuario);
+
+
+      this.dataSource = (cliente || [])
+        .filter((c: Cliente) => usuariosCliente.includes(c.usuario_idusuario))
+        .map(cliente => ({
           ...cliente,
           idcliente: cliente.idcliente || 1,
           nombre: cliente.nombre || 'Nombre no disponible',
           telefono: cliente.telefono || 'Teléfono no disponible',
         }));
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error en la solicitud:', error.message);
-      }
+      
+    })
+    .catch((error: HttpErrorResponse) => {
+      console.error('Error al obtener clientes o usuarios:', error.message);
     });
   }
 

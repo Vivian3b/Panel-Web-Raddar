@@ -15,7 +15,6 @@
     <input matInput formControlName="telefono" required>
   </mat-form-field>
 
-  <!-- Campo de correo electrónico solo visible cuando se crea una nueva matriz -->
   <mat-form-field class="form-field" *ngIf="!form.value.idmatriz">
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" required>
