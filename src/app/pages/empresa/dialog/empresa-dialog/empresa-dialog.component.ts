@@ -20,18 +20,18 @@ export class EmpresaDialogComponent implements AfterViewInit, OnInit {
   form: FormGroup;
   map!: L.Map;
   marker!: L.Marker;
-  matrices: any[] = []; // Arreglo para almacenar las matrices disponibles
+  matrices: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EmpresaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private empresaService: EmpresaService // Servicio para obtener matrices
+    private empresaService: EmpresaService
   ) {
     this.form = this.fb.group({
       idempresa: [data?.idempresa || null],
       usuario_idusuario: [data?.usuario_idusuario || null],
-      matriz_idmatriz: [data?.matriz_idmatriz || null], // Este campo ahora será un select
+      matriz_idmatriz: [data?.matriz_idmatriz || null],
       nombre: [data?.nombre || ''],
       descripcion: [data?.descripcion || ''],
       ubicacion: [data?.ubicacion ? `${data.ubicacion.x}, ${data.ubicacion.y}` : '']
@@ -39,32 +39,23 @@ export class EmpresaDialogComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.obtenerMatrices(); // Cargar las matrices al iniciar el componente
+    // Cargar las matrices disponibles cuando el componente se inicializa
+    this.empresaService.obtenerMatrices().subscribe((matrices) => {
+      this.matrices = matrices;
+    });
   }
 
   ngAfterViewInit(): void {
     this.initializeMap();
   }
 
-  // Método para obtener las matrices desde la API
-  obtenerMatrices(): void {
-    this.empresaService.obtenerMatrices().subscribe({
-      next: (data: any[]) => {
-        this.matrices = data; // Almacenamos las matrices recibidas
-      },
-      error: (error) => {
-        console.error('Error al obtener matrices:', error);
-      }
-    });
-  }
-
   initializeMap(): void {
-    const lat = this.data?.ubicacion?.y || 19.4326;  
-    const lng = this.data?.ubicacion?.x || -99.1332;  
+    const lat = this.data?.ubicacion?.y || 19.4326;
+    const lng = this.data?.ubicacion?.x || -99.1332;
 
     this.map = L.map('map').setView([lat, lng], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
-    
+
     this.marker = L.marker([lat, lng]).addTo(this.map);
 
     this.map.on('click', (e: L.LeafletMouseEvent) => {
@@ -76,38 +67,17 @@ export class EmpresaDialogComponent implements AfterViewInit, OnInit {
   guardar() {
     const formValue = this.form.value;
     const latLng = this.marker.getLatLng();
-  
-    formValue.ubicacion = { x: latLng.lng, y: latLng.lat };
-  
-    // Asignamos el idusuario si no existe en los datos del formulario
-    formValue.usuario_idusuario = 1; // Ajusta según tu lógica para obtener el idusuario
-  
-    if (formValue.idempresa) {
-      // Si ya existe una idempresa, actualizamos
-      this.empresaService.actualizarEmpresa(formValue).subscribe({
-        next: (empresa) => {
-          console.log('Empresa actualizada:', empresa);
-          this.dialogRef.close(empresa);
-        },
-        error: (error) => {
-          console.error('Error al actualizar la empresa:', error);
-        }
-      });
-    } else {
-      // Si no existe idempresa, creamos una nueva
-      this.empresaService.crearEmpresa(formValue).subscribe({
-        next: (empresa) => {
-          console.log('Empresa creada:', empresa);
-          this.dialogRef.close(empresa);
-        },
-        error: (error) => {
-          console.error('Error al crear la empresa:', error);
-        }
-      });
-    }
+
+    formValue.ubicacion = {
+      x: latLng.lng,
+      y: latLng.lat
+    };
+    formValue.usuario_idusuario = formValue.usuario_idusuario || 1; 
+
+    console.log('Form empresa guardado:', formValue);
+    this.dialogRef.close(formValue);
   }
-  
-  
+
   cerrarDialogo() {
     this.dialogRef.close();
   }

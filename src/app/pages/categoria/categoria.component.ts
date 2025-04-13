@@ -2,19 +2,12 @@ import { Component, inject } from '@angular/core';
 import { Categoria } from '../../interfaces/Categoria';
 import { CategoriaService } from '../../services/categoria.service';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared/shared.module';
+import { CategoriaDialogComponent } from './dialog/categoria-dialog/categoria-dialog.component';
 
 @Component({
   selector: 'app-categoria',
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule
-  ],
+  imports: [SharedModule],
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.css'
 })
@@ -30,7 +23,7 @@ export class CategoriaComponent {
   }
 
   obtenerCategorias() {
-    this.categoriaService.getCategorias().subscribe({
+    this.categoriaService.obtenerCategorias().subscribe({
       next: (data) => {
         this.dataSource = data.map(categoria => ({
           ...categoria,
@@ -51,7 +44,7 @@ export class CategoriaComponent {
   }
 
   eliminarCategoria(id: number) {
-    this.categoriaService.deleteCategoria(id).subscribe({
+    this.categoriaService.eliminarCategoria(id).subscribe({
       next: () => this.obtenerCategorias(),
       error: (error) => {
         console.error('Error al eliminar categoría:', error);
@@ -60,7 +53,6 @@ export class CategoriaComponent {
   }
 
   abrirDialogo(categoria?: Categoria) {
-    /*
     const dialogRef = this.dialog.open(CategoriaDialogComponent, {
       width: '400px',
       data: categoria || {}
@@ -69,17 +61,17 @@ export class CategoriaComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.idcategoria) {
-          this.categoriaService.updateCategoria(result.idcategoria, result).subscribe({
+          this.categoriaService.actualizarCategoria(result.idcategoria, result).subscribe({
             next: () => this.obtenerCategorias(),
             error: (error) => console.error('Error al actualizar categoría:', error)
           });
         } else {
-          this.categoriaService.createCategoria(result).subscribe({
+          this.categoriaService.crearCategoria(result).subscribe({
             next: () => this.obtenerCategorias(),
             error: (error) => console.error('Error al crear categoría:', error)
           });
         }
       }
-    });*/
+    });
   }
 }

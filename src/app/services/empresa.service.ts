@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Empresa } from '../interfaces/Empresa';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Matriz } from '../interfaces/Matriz';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +16,33 @@ export class EmpresaService {
   constructor(private http: HttpClient) {}
 
   crearEmpresa(empresa: Empresa): Observable<Empresa> {
-    // Verificar que las coordenadas no estén indefinidas
     if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
       console.error('Coordenadas inválidas');
       return throwError('Coordenadas inválidas');
     }
 
+    // Obtener el token y decodificar
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado'));
+    }
+
+    let idusuario: number;
+    try {
+      const decoded: any = jwtDecode(token);
+      idusuario = decoded.idusuario;
+    } catch (error) {
+      console.error('Error al decodificar token:', error);
+      return throwError(() => new Error('Token inválido'));
+    }
+
     const body = {
       nombre: empresa.nombre,
       descripcion: empresa.descripcion,
-      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x }, // Convertir a lat/lng
-      usuario_idusuario: empresa.usuario_idusuario,
-      matriz_idmatriz: empresa.matriz_idmatriz, // Aquí se usa el id de la matriz seleccionada
+      ubicacion: { lat: empresa.ubicacion.y, lng: empresa.ubicacion.x },
+      usuario_idusuario: idusuario, // Asignación automática desde el token
+      matriz_idmatriz: empresa.matriz_idmatriz,
       eliminado: empresa.eliminado
     };
 
@@ -53,7 +69,6 @@ export class EmpresaService {
   }
 
   actualizarEmpresa(empresa: Empresa): Observable<Empresa> {
-    // Verificar que las coordenadas no estén indefinidas
     if (!empresa.ubicacion || !empresa.ubicacion.y || !empresa.ubicacion.x) {
       console.error('Coordenadas inválidas');
       return throwError('Coordenadas inválidas');
@@ -81,9 +96,13 @@ export class EmpresaService {
 
   eliminarEmpresa(idempresa: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${idempresa}`).pipe(
-      catchError(this.handleError)
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en la solicitud:', error.message);
+        return throwError(error);  // Manejamos el error si ocurre
+      })
     );
   }
+  
 
   obtenerMatrices(): Observable<Matriz[]> {
     return this.http.get<Matriz[]>(this.apiMatrizUrl).pipe(

@@ -1,46 +1,67 @@
-/* Acomodo general del formulario */
+/* Ajuste del contenedor del diálogo para usar el 100% disponible */
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenedor general del formulario */
 .dialog-form {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+  max-height: calc(100vh - 64px); /* Altura total menos espacio del título */
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Título del formulario */
+.dialog-title {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 16px;
+  font-weight: 500;
+}
+
+/* Estilo uniforme para los campos */
+.form-field, mat-form-field {
+  width: 100%;
+}
+
+/* Ajuste de botones para mantenerlos visibles y alineados */
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.button {
+  width: 48%;
+  background-color: #0DA697;
+  color: white !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0fb9a8;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 480px) {
+  .dialog-buttons {
     flex-direction: column;
-    gap: 20px;
-    width: 80%;
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  /* Acomodo y estilo de los campos del formulario */
-  .form-field {
-    width: 100%;
-  }
-  
-  mat-form-field {
-    display: block;
-  }
-  
-  /* Alineación de los botones al final */
-  ::ng-deep .dialog-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  
-  ::ng-deep .button {
-    width: 45%;
-    background-color: #0DA697;
-    color: white !important;
-    font-size: 14px; /* Tamaño de fuente */
-    cursor: pointer; /* Cambia el cursor a mano cuando pasas por encima */
+    gap: 8px;
   }
 
-  button:hover {
-    background-color: #0fb9a8; /* Color de fondo cuando el botón está en hover */
-}
-  
-  /* Estilo para el título */
-  .dialog-title {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 20px;
+  .button {
+    width: 100%;
   }
-  
+}

@@ -69,4 +69,9 @@ export class PromocionService {
       })
     );
   }
+
+  // Obtener los tipos de promociones ('Informativa', 'Venta')
+  getTipos(): string[] {
+    return ['Informativa', 'Venta']; // Los valores que provienen del ENUM en la base de datos
+  }
 }

@@ -3,21 +3,12 @@ import { Empresa } from '../../interfaces/Empresa';
 import { EmpresaService } from '../../services/empresa.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EmpresaDialogComponent } from './dialog/empresa-dialog/empresa-dialog.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { SharedModule } from '../../shared/shared/shared.module';
 
 @Component({
   selector: 'app-empresa',
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule
-  ],
+  imports: [SharedModule],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.css'
 })
@@ -43,37 +34,48 @@ export class EmpresaComponent implements OnInit {
         }));
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error en la solicitud:', error.message);
+        console.error('Error al obtener empresas:', error);
       }
     });
   }
 
   eliminarEmpresa(idempresa: number) {
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar esta empresa?');
+    if (!confirmacion) return;
+
     this.empresaService.eliminarEmpresa(idempresa).subscribe({
-      next: () => {
-        this.dataSource = this.dataSource.filter(empresa => empresa.idempresa !== idempresa);
-      },
-      error: (error) => {
-        console.error('Error al eliminar empresa:', error);
-      }
+      next: () => this.obtenerEmpresas(),
+      error: (error) => console.error('Error al eliminar empresa:', error)
     });
   }
 
   abrirDialogo(empresa?: Empresa) {
     const dialogRef = this.dialog.open(EmpresaDialogComponent, {
+      width: '400px',
       data: empresa || {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(emp => emp.idempresa === result.idempresa);
-        if (index !== -1) {
-          this.dataSource[index] = result;
+        if (result.idempresa) {
+          this.empresaService.actualizarEmpresa(result).subscribe({
+            next: () => this.obtenerEmpresas(),
+            error: (error) => console.error('Error al actualizar empresa:', error)
+          });
         } else {
-          this.dataSource.push(result);
+          this.empresaService.crearEmpresa(result).subscribe({
+            next: () => this.obtenerEmpresas(),
+            error: (error) => console.error('Error al crear empresa:', error)
+          });
         }
-        this.dataSource = [...this.dataSource];
       }
     });
+  }
+
+  getUbicacion(ubicacion: any): string {
+    if (ubicacion && ubicacion.lat && ubicacion.lng) {
+      return `Lat: ${ubicacion.lat}, Lng: ${ubicacion.lng}`;
+    }
+    return 'Ubicación no disponible';
   }
 }

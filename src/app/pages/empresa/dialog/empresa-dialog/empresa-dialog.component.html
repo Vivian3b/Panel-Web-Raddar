@@ -1,37 +1,36 @@
-<h2 mat-dialog-title>{{ data?.idempresa ? 'Editar Empresa' : 'Crear Empresa' }}</h2>
+<h2 mat-dialog-title class="dialog-title">
+  {{ form.value.idempresa ? 'Editar' : 'Agregar' }} Empresa
+</h2>
 
-<form [formGroup]="form" (ngSubmit)="guardar()">
-  <div mat-dialog-content>
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="nombre" required>
-    </mat-form-field>
+<form [formGroup]="form" class="dialog-form">
+  <mat-form-field class="form-field">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" required>
+  </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Descripción</mat-label>
-      <input matInput formControlName="descripcion" required>
-    </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Descripción</mat-label>
+    <input matInput formControlName="descripcion" required>
+  </mat-form-field>
 
-    <!-- Campo de selección para la matriz -->
-    <mat-form-field>
-      <mat-label>Matriz</mat-label>
-      <mat-select formControlName="matriz_idmatriz" required>
-        <mat-option *ngFor="let matriz of matrices" [value]="matriz.idmatriz">
-          {{ matriz.nombre }} <!-- Ajusta esto según el nombre que quieras mostrar -->
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-form-field class="form-field" *ngIf="!form.value.idempresa">
+    <mat-label>Matriz</mat-label>
+    <mat-select formControlName="matriz_idmatriz" required>
+      <mat-option *ngFor="let matriz of matrices" [value]="matriz.idmatriz">
+        {{ matriz.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Ubicación</mat-label>
-      <input matInput formControlName="ubicacion" readonly>
-    </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Ubicación</mat-label>
+    <input matInput formControlName="ubicacion" required readonly>
+  </mat-form-field>
 
-    <div id="map" style="height: 300px;"></div>
-  </div>
+  <div id="map" class="map-container"></div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="cerrarDialogo()">Cancelar</button>
-    <button mat-button type="submit" [disabled]="form.invalid">Guardar</button>
+  <div class="dialog-buttons">
+    <button mat-button class="button" (click)="guardar()">Guardar</button>
+    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
   </div>
 </form>

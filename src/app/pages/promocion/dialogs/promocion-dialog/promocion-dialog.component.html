@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="dialog-title">{{ form.value.idpromocion ? 'Editar' : 'Agregar' }} Promoción</h2>
+<h2 mat-dialog-title class="dialog-title">{{ form.value.idpromocion ? 'Editar' : 'Agregar' }} Promoción</h2> 
 <form [formGroup]="form" class="dialog-form">
   <mat-form-field class="form-field">
     <mat-label>Nombre</mat-label>
@@ -20,9 +20,36 @@
     <input matInput type="date" formControlName="vigenciafin" required>
   </mat-form-field>
 
-  <mat-form-field class="form-field">
+  <mat-form-field appearance="fill">
     <mat-label>Tipo</mat-label>
-    <input matInput formControlName="tipo" required>
+    <mat-select formControlName="tipo" required>
+      <mat-option *ngFor="let tipo of tipos" [value]="tipo">
+        {{ tipo }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-form-field class="form-field">
+    <mat-label>Empresa</mat-label>
+    <mat-select formControlName="empresa_idempresa" required>
+      <mat-option *ngFor="let empresa of empresas" [value]="empresa.idempresa">
+        {{ empresa.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="form-field">
+    <mat-label>Categoría</mat-label>
+    <mat-select formControlName="categoria_idcategoria" required>
+      <mat-option *ngFor="let categoria of categorias" [value]="categoria.idcategoria">
+        {{ categoria.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="form-field">
+    <mat-label>Precio</mat-label>
+    <input matInput type="number" formControlName="precio" required>
   </mat-form-field>
 
   <div class="dialog-buttons">
