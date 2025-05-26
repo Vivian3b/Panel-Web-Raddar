@@ -1,0 +1,81 @@
+::ng-deep .mat-dialog-container {
+  width: 95vw;
+  max-width: 1000px;
+  max-height: 95vh;
+  padding: 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor centrado */
+.dialog-card {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Título */
+.dialog-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Formulario */
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Campos del formulario */
+.form-field {
+  width: 100%;
+}
+
+/* Botones */
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 150px;
+  margin-top: 16px;
+}
+
+.green-button {
+  flex: 1;
+  background-color: #0DA697;
+  color: white !important;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.green-button:hover {
+  background-color: #0fb9a8;
+}
+
+/* Checkbox */
+.change-password-toggle {
+  margin: 8px 0;
+}
+
+/* Espacio reservado para los campos de contraseña */
+.password-section {
+  height: 160px; /* reserva el espacio siempre */
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.password-section.hidden {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}

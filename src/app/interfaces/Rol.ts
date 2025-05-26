@@ -2,8 +2,9 @@ export interface Rol {
     idrol: number;
     nombre: string;
     idcreador: number;
-    idactualizacion?: number | null;
+    idactualizacion: number;
     fechacreacion: string;
-    fechaactualizacion?: string | null;
+    fechaactualizacion: string;
+    eliminado: boolean;
   }
   

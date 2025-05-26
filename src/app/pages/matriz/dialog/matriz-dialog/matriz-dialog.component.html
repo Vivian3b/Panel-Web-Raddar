@@ -1,21 +1,21 @@
 <h2 mat-dialog-title class="dialog-title">{{ form.value.idmatriz ? 'Editar' : 'Agregar' }} Matriz</h2>
 <form [formGroup]="form" class="dialog-form">
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" required>
   </mat-form-field>
 
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Ubicación</mat-label>
     <input matInput formControlName="ubicacion" required readonly>
   </mat-form-field>
 
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Teléfono</mat-label>
     <input matInput formControlName="telefono" required>
   </mat-form-field>
 
-  <mat-form-field class="form-field" *ngIf="!form.value.idmatriz">
+  <mat-form-field class="form-field" *ngIf="!form.value.idmatriz" appearance="outline">
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" required>
   </mat-form-field>

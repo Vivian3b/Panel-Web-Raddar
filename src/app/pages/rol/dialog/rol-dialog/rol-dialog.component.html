@@ -1,1 +1,20 @@
-<p>rol-dialog works!</p>
+<h2 mat-dialog-title class="dialog-title">
+  {{ data.idrol ? 'Editar Rol' : 'Nuevo Rol' }}
+</h2>
+
+<form [formGroup]="rolForm" class="dialog-form" (ngSubmit)="guardar()">
+  <mat-form-field class="form-field" appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+    <mat-error *ngIf="rolForm.get('nombre')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <div class="dialog-buttons">
+    <button mat-button class="button" type="submit" [disabled]="rolForm.invalid">
+      {{ data.idrol ? 'Actualizar' : 'Crear' }}
+    </button>
+    <button mat-button class="button" type="button" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

@@ -19,39 +19,31 @@ export class UsuarioService {
         console.error('Error al obtener usuarios:', error);
         return throwError(() => new Error(error));
       }),
-      map((usuarios: Usuario[]) => {
-        return usuarios;
-      })
+      map((usuarios: Usuario[]) => usuarios)
     );
   }
-  
 
-  createUser(usuario: Usuario): Observable<Usuario> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  createUser(usuario: Usuario): Observable<{ usuario: Usuario, token: string }> {
+  const token = localStorage.getItem('token');
+  if (!token) return throwError(() => new Error('No se encontró el token JWT'));
 
-    // Obtener el token JWT del localStorage
-    const token = localStorage.getItem('token');
-    
-    if (token) {
-      // Decodificar el token JWT para obtener el id del creador
-      const decodedToken: any = jwtDecode(token);
-      const idcreador = decodedToken.idusuario;  // Asegúrate de que el token contiene el id del usuario autenticado
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const decodedToken: any = jwtDecode(token);
+  const idcreador = decodedToken.idusuario;
 
-      // Agregar el idcreador al objeto usuario
-      const usuarioConCreador = { ...usuario, idcreador };
+  const nuevoUsuario = {
+    ...usuario,
+    idcreador
+  };
 
-      // Realizar la solicitud POST al backend con el idcreador incluido
-      return this.http.post<Usuario>(this.apiUrl, usuario, { headers }).pipe(
-        catchError(error => {
-          console.error('Error al crear usuario:', error);
-          return throwError(() => new Error(error));  
-        })
-      );
-    } else {
-      console.error('No se encontró el token JWT');
-      return throwError(() => new Error('No se encontró el token JWT'));
-    }
-  }
+  return this.http.post<{ usuario: Usuario, token: string }>(this.apiUrl, nuevoUsuario, { headers }).pipe(
+    catchError(error => {
+      console.error('Error al crear usuario:', error);
+      return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
+    })
+  );
+}
+
 
   updateUser(id: number, usuario: Usuario): Observable<Usuario> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -59,7 +51,7 @@ export class UsuarioService {
     return this.http.patch<Usuario>(`${this.apiUrl}/${id}`, usuario, { headers }).pipe(
       catchError(error => {
         console.error('Error al actualizar usuario:', error);
-        return throwError(() => new Error(error));  
+        return throwError(() => new Error(error?.error?.message || 'Error al actualizar usuario'));
       })
     );
   }
@@ -68,7 +60,35 @@ export class UsuarioService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {
         console.error('Error al eliminar usuario:', error);
-        return throwError(() => new Error(error));  
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
+  verifyEmail(token: string): Observable<any> {
+    const url = `${this.apiUrl}/confirmarUsuario/${token}`;
+    return this.http.get<any>(url).pipe(
+      catchError(error => {
+        console.error('Error al verificar el correo:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
+  crearVendedor(data: any): Observable<any> {
+    return this.http.post<any>(`${appsettings.apiUrl}/vendedor`, data).pipe(
+      catchError(error => {
+        console.error('Error al crear vendedor:', error);
+        return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
+      })
+    );
+  }
+
+  crearAdministrador(data: any): Observable<any> {
+    return this.http.post<any>(`${appsettings.apiUrl}/administrador`, data).pipe(
+      catchError(error => {
+        console.error('Error al crear administrador:', error);
+        return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
       })
     );
   }

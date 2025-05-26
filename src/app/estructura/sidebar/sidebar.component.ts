@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AccesoService } from '../../services/acceso.service';
 
+import { MatMenuModule } from '@angular/material/menu';
+
 @Component({
   selector: 'app-sidebar',
   imports: [
@@ -25,6 +27,7 @@ import { AccesoService } from '../../services/acceso.service';
     MatExpansionModule,
     CommonModule,
     RouterModule,
+    MatMenuModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
@@ -66,7 +69,6 @@ export class SidebarComponent {
       items: [
         { name: 'Movimientos', route: '/dashboard/movimiento' },
         { name: 'Métodos de Pago', route: '/dashboard/metodopago' },
-        { name: 'Tarjetas', route: '/dashboard/tarjeta' },
       ],
     },
     {
@@ -75,8 +77,6 @@ export class SidebarComponent {
       items: [
         { name: 'Promociones', route: '/dashboard/promocion' },
         { name: 'Categorías', route: '/dashboard/categoria' },
-        { name: 'Guardados', route: '/dashboard/guardado' },
-        { name: 'Notificaciones', route: '/dashboard/notificacion' },
       ],
     },
   ];
@@ -87,11 +87,9 @@ export class SidebarComponent {
   }
 
   onSidenavToggle(opened: boolean) {
-    console.log('El sidenav está: ', opened ? 'abierto' : 'cerrado');
   }
 
   logout() {
     this.accesoService.logout();
-    console.log('Usuario deslogueado');
   }
 }

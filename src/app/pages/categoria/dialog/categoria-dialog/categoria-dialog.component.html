@@ -1,15 +1,20 @@
 <h2 mat-dialog-title class="dialog-title">
-  {{ form.value.idcategoria ? 'Editar' : 'Agregar' }} Categoría
+  {{ data.idcategoria ? 'Editar Categoría' : 'Nueva Categoría' }}
 </h2>
 
-<form [formGroup]="form" class="dialog-form">
-  <mat-form-field class="form-field">
+<form [formGroup]="categoriaForm" class="dialog-form" (ngSubmit)="guardar()">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Nombre</mat-label>
-    <input matInput formControlName="nombre" required>
+    <input matInput formControlName="nombre" />
+    <mat-error *ngIf="categoriaForm.get('nombre')?.hasError('required')">
+      Campo requerido
+    </mat-error>
   </mat-form-field>
 
   <div class="dialog-buttons">
-    <button mat-button class="button" (click)="guardar()">Guardar</button>
-    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
+    <button mat-button class="button" (click)="guardar()" [disabled]="categoriaForm.invalid">
+      {{ data.idcategoria ? 'Actualizar' : 'Crear' }}
+    </button>
+    <button mat-button class="button" (click)="cancelar()">Cancelar</button>
   </div>
 </form>

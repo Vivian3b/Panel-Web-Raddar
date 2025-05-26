@@ -1,0 +1,20 @@
+<h2 mat-dialog-title class="dialog-title">
+  {{ form.value.idpermiso ? 'Editar' : 'Agregar' }} Permiso
+</h2>
+
+<form [formGroup]="form" class="dialog-form">
+  <mat-form-field class="form-field" appearance="outline">
+    <mat-label>Nombre del Permiso</mat-label>
+    <mat-select formControlName="nombre" required>
+      <mat-option value="Crear">Crear</mat-option>
+      <mat-option value="Consultar">Consultar</mat-option>
+      <mat-option value="Actualizar">Actualizar</mat-option>
+      <mat-option value="Eliminar">Eliminar</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="dialog-buttons">
+    <button mat-button class="button" (click)="guardar()">Guardar</button>
+    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
+  </div>
+</form>

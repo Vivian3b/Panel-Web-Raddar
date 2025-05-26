@@ -29,9 +29,18 @@ import { map } from 'rxjs';
   styleUrl: './inicio.component.css'
 })
 export class InicioComponent {
+  usuario: string = '';
   //constructor(private accesoService: AccesoService, private router: Router) {}
   private breakpointObserver = inject(BreakpointObserver);
   /** Based on the screen size, switch from standard to one column per row */
+  constructor() {
+    const usuarioGuardado = localStorage.getItem('usuario');
+    if (usuarioGuardado) {
+      const user = JSON.parse(usuarioGuardado);
+      this.usuario = user.email?.split('@')[0]; // solo la parte antes de la arroba
+    }
+  }
+
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
       if (matches) {

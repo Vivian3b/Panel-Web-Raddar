@@ -28,7 +28,7 @@ export class LoginComponent {
 
   public formLogin: FormGroup = this.formBuild.group({
     correo:['',Validators.required],
-    contraseña:['',Validators.required]
+    password:['',Validators.required]
   })
   
   iniciarSesion(){
@@ -37,7 +37,7 @@ export class LoginComponent {
 
     const objeto: Login = {
       email: this.formLogin.value.correo,
-      contraseña: this.formLogin.value.contraseña
+      password: this.formLogin.value.password
     }
 
     this.accesoService.login(objeto).subscribe({
@@ -45,6 +45,7 @@ export class LoginComponent {
         if (data.accessToken && data.refreshToken) {
           localStorage.setItem("token", data.accessToken);
           localStorage.setItem("refreshToken", data.refreshToken);
+          localStorage.setItem('usuario', JSON.stringify(data.user));
           
           this.router.navigate(['/dashboard/inicio']);
           

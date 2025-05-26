@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotificacionComponent } from './notificacion.component';
+import { PermisoDialogComponent } from './permiso-dialog.component';
 
-describe('NotificacionComponent', () => {
-  let component: NotificacionComponent;
-  let fixture: ComponentFixture<NotificacionComponent>;
+describe('PermisoDialogComponent', () => {
+  let component: PermisoDialogComponent;
+  let fixture: ComponentFixture<PermisoDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificacionComponent]
+      imports: [PermisoDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NotificacionComponent);
+    fixture = TestBed.createComponent(PermisoDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

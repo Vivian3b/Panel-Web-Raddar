@@ -5,10 +5,11 @@ import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-matriz-dialog',
-  imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule],
+  imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatDialogModule,],
   templateUrl: './matriz-dialog.component.html',
   styleUrl: './matriz-dialog.component.css'
 })

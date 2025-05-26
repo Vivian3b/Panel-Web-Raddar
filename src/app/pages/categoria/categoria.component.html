@@ -1,5 +1,7 @@
 <div class="tabla-categorias">
     <h2 class="titulo-tabla">Categorías</h2>
+
+    <app-busqueda (textoCambio)="filtrarCategorias($event)"></app-busqueda>
   
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   

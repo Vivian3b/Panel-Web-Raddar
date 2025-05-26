@@ -35,7 +35,7 @@ export class CategoriaService {
     let idcreador: number;
     try {
       const decoded: any = jwtDecode(token);
-      idcreador = decoded.id;
+      idcreador = decoded.idusuario;
     } catch (error) {
       console.error('Error al decodificar token:', error);
       return throwError(() => new Error('Token inválido'));
@@ -63,7 +63,7 @@ export class CategoriaService {
     let idactualizacion: number;
     try {
       const decoded: any = jwtDecode(token);
-      idactualizacion = decoded.id;
+      idactualizacion = decoded.idusuario;
     } catch (error) {
       console.error('Error al decodificar token:', error);
       return throwError(() => new Error('Token inválido'));

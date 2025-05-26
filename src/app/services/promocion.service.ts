@@ -59,8 +59,6 @@ export class PromocionService {
     );
   }
   
-
-  // Eliminar una promoción
   deletePromocion(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {

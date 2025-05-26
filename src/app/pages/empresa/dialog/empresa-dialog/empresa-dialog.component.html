@@ -3,17 +3,17 @@
 </h2>
 
 <form [formGroup]="form" class="dialog-form">
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" required>
   </mat-form-field>
 
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Descripción</mat-label>
     <input matInput formControlName="descripcion" required>
   </mat-form-field>
 
-  <mat-form-field class="form-field" *ngIf="!form.value.idempresa">
+  <mat-form-field class="form-field" *ngIf="!form.value.idempresa" appearance="outline">
     <mat-label>Matriz</mat-label>
     <mat-select formControlName="matriz_idmatriz" required>
       <mat-option *ngFor="let matriz of matrices" [value]="matriz.idmatriz">
@@ -22,7 +22,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="form-field">
+  <mat-form-field class="form-field" appearance="outline">
     <mat-label>Ubicación</mat-label>
     <input matInput formControlName="ubicacion" required readonly>
   </mat-form-field>

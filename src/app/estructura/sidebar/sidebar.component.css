@@ -73,6 +73,11 @@
     margin-right: 10px;
   }
 
+  .icono {
+    font-size: 25px;
+    color: black;
+  }
+
 /* Estilo para las opciones seleccionadas */
 mat-nav-list a.active {
   background-color: #22d0bf;
@@ -82,10 +87,6 @@ mat-nav-list a.active {
 mat-nav-list a:hover {
   background-color: #8DDCD5; /*al pasar el mouse */
 }
-
-
-
-
 
 
 

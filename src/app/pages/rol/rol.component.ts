@@ -7,6 +7,7 @@ import { Rol } from '../../interfaces/Rol';
 import { RolService } from '../../services/rol.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RolDialogComponent } from './dialog/rol-dialog/rol-dialog.component';
+import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
 
 @Component({
   selector: 'app-rol',
@@ -14,7 +15,8 @@ import { RolDialogComponent } from './dialog/rol-dialog/rol-dialog.component';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    BusquedaComponent
   ],
   templateUrl: './rol.component.html',
   styleUrl: './rol.component.css'
@@ -22,6 +24,7 @@ import { RolDialogComponent } from './dialog/rol-dialog/rol-dialog.component';
 export class RolComponent implements OnInit{
   displayedColumns: string[] = ['idrol', 'nombre', 'idcreador', 'idactualizacion', 'fechacreacion', 'fechaactualizacion', 'acciones'];
   dataSource: Rol[] = [];
+  roles: Rol[] = [];
 
   private rolService = inject(RolService);
   private dialog = inject(MatDialog);
@@ -33,20 +36,29 @@ export class RolComponent implements OnInit{
   obtenerRoles() {
     this.rolService.getRoles().subscribe({
       next: (data) => {
-        this.dataSource = data.map(rol => ({
+        const rolesProcesados = data.map(rol => ({
           ...rol,
           fechacreacion: this.fixDate(rol.fechacreacion),
-          fechaactualizacion: rol.fechaactualizacion ? this.fixDate(rol.fechaactualizacion) : null
+          fechaactualizacion: this.fixDate(rol.fechaactualizacion)
         }));
+
+        this.roles = rolesProcesados; // ✅ Guardar lista completa
+        this.dataSource = rolesProcesados;
       },
       error: (error) => console.error('Error al obtener roles:', error)
     });
   }
 
-  fixDate(fecha: string | null | undefined): string {
-    if (!fecha) return ''; // Evita fechas nulas o indefinidas
-    const date = new Date(fecha);
-    if (isNaN(date.getTime())) return ''; // Verifica si la fecha es válida
+  // ✅ NUEVO MÉTODO
+  aplicarFiltro(filtro: string) {
+    this.dataSource = this.roles.filter(rol =>
+      rol.nombre.toLowerCase().includes(filtro)
+    );
+  }
+
+  fixDate(fecha: string): string {
+    if (!fecha) return '';
+    let date = new Date(fecha);
     return new Date(date.getTime() + date.getTimezoneOffset() * 60000).toISOString().split('T')[0];
   }
 

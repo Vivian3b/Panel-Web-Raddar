@@ -1,6 +1,8 @@
 <div class="matriz-container">
   <h2 class="titulo-tabla">Matrices</h2>
 
+  <app-busqueda (textoCambio)="onTextoBusquedaCambio($event)"></app-busqueda>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="idmatriz">
       <th mat-header-cell *matHeaderCellDef> ID matriz </th>
@@ -35,7 +37,7 @@
         <button mat-icon-button color="primary" (click)="abrirDialogo(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="eliminarMatriz(element.idmatriz)">
+        <button mat-icon-button color="warn" (click)="confirmarEliminacion(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

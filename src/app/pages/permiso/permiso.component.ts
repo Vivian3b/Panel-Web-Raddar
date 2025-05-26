@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { PermisoDialogComponent } from './dialog/permiso-dialog/permiso-dialog.component';
 
 @Component({
   selector: 'app-permiso',
@@ -19,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './permiso.component.css'
 })
 export class PermisoComponent {
-  displayedColumns: string[] = ['idpermiso', 'nombre', 'idcreador', 'fechacreacion', 'acciones'];
+  displayedColumns: string[] = ['idpermiso', 'nombre', 'idcreador', 'idactualizacion', 'fechacreacion', 'fechaactualizacion', 'acciones'];
   dataSource: Permiso[] = [];
 
   private permisoService = inject(PermisoService);
@@ -66,7 +67,7 @@ export class PermisoComponent {
 
   // Función para abrir el dialogo de crear/editar permiso
   abrirDialogo(permiso?: Permiso) {
-    /*
+    
     const dialogRef = this.dialog.open(PermisoDialogComponent, {
       width: '400px',
       data: permiso || {}
@@ -87,6 +88,5 @@ export class PermisoComponent {
         }
       }
     });
-    */
   }
 }

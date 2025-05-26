@@ -37,4 +37,16 @@
     bottom: 20px;
     right: 20px;
   }
+
+  .fab-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0DA697;
+  }
+  
+  .fab-button mat-icon {
+    font-size: 24px;
+    color: white;
+  }
   

@@ -1,0 +1,42 @@
+mat-form-field {
+  width: 100%;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  max-width: 500px;
+  margin: auto;
+  padding: 5px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button {
+  width: 35%;
+  background-color: #0DA697;
+  color: white !important;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0fb9a8;
+}
+
+.dialog-title {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-family: 'Poppins';
+}

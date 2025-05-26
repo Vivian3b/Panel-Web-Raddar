@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TarjetaComponent } from './tarjeta.component';
+import { SolicitarCambioComponent } from './solicitar-cambio.component';
 
-describe('TarjetaComponent', () => {
-  let component: TarjetaComponent;
-  let fixture: ComponentFixture<TarjetaComponent>;
+describe('SolicitarCambioComponent', () => {
+  let component: SolicitarCambioComponent;
+  let fixture: ComponentFixture<SolicitarCambioComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TarjetaComponent]
+      imports: [SolicitarCambioComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TarjetaComponent);
+    fixture = TestBed.createComponent(SolicitarCambioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

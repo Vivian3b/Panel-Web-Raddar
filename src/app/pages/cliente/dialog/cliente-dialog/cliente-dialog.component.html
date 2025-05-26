@@ -1,27 +1,59 @@
-<h2 mat-dialog-title class="dialog-title">{{ form.value.idcliente ? 'Editar' : 'Agregar' }} Cliente</h2>
-<form [formGroup]="form" class="dialog-form">
-  <mat-form-field class="form-field">
-    <mat-label>Nombre</mat-label>
-    <input matInput formControlName="nombre" required>
-  </mat-form-field>
+<h2 mat-dialog-title class="dialog-title">
+  {{ esEdicion ? 'Editar Cliente' : 'Registrar Cliente' }}
+</h2>
 
-  <mat-form-field class="form-field">
-    <mat-label>Teléfono</mat-label>
-    <input matInput formControlName="telefono" required>
-  </mat-form-field>
+<div class="dialog-card">
+  <form [formGroup]="form" class="dialog-form">
 
-  <mat-form-field class="form-field">
-    <mat-label>Latitud</mat-label>
-    <input matInput type="number" formControlName="ubicacion.lat" required>
-  </mat-form-field>
+    <!-- Correo -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="correo" type="email" required />
+      <mat-error *ngIf="form.get('correo')?.hasError('required')">
+        El email es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="form.get('correo')?.hasError('email')">
+        Ingrese un email válido.
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="form-field">
-    <mat-label>Longitud</mat-label>
-    <input matInput type="number" formControlName="ubicacion.lng" required>
-  </mat-form-field>
+    <!-- Casilla cambiar contraseña -->
+    <div *ngIf="esEdicion" class="change-password-toggle">
+      <mat-checkbox formControlName="cambiarPassword">Cambiar contraseña</mat-checkbox>
+    </div>
 
-  <div class="dialog-buttons">
-    <button mat-button class="button" (click)="guardar()">Guardar</button>
-    <button mat-button class="button" (click)="cerrarDialogo()">Cancelar</button>
-  </div>
-</form>
+    <!-- Campos de contraseña (ocultos visualmente si no se activa la casilla) -->
+    <div class="password-section" [class.hidden]="esEdicion && !form.get('cambiarPassword')?.value">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
+          La contraseña es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+          La contraseña debe tener al menos 6 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput formControlName="confirmarPassword" type="password" />
+        <mat-error *ngIf="form.get('confirmarPassword')?.hasError('required')">
+          La confirmación es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="form.hasError('noCoinciden')">
+          Las contraseñas no coinciden.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <input formControlName="idcreador" type="hidden" />
+
+    <!-- Botones -->
+    <div class="dialog-buttons">
+      <button mat-button class="green-button" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
+      <button mat-button class="green-button" (click)="cerrarDialogo()">Cancelar</button>
+    </div>
+
+  </form>
+</div>

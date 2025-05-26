@@ -11,20 +11,18 @@ import { EmpresaComponent } from './pages/empresa/empresa.component';
 import { RolComponent } from './pages/rol/rol.component';
 import { MovimientoComponent } from './pages/movimiento/movimiento.component';
 import { MetodopagoComponent } from './pages/metodopago/metodopago.component';
-import { TarjetaComponent } from './pages/tarjeta/tarjeta.component';
 import { CategoriaComponent } from './pages/categoria/categoria.component';
-import { NotificacionComponent } from './pages/notificacion/notificacion.component';
 import { PermisoComponent } from './pages/permiso/permiso.component';
 import { ModuloComponent } from './pages/modulo/modulo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
   { path: 'login', component: LoginComponent },
+  
   { 
     path: 'dashboard', 
     component: SidebarComponent, canActivate: [authGuard],  // Protege el dashboard (y rutas hijas)
     children: [
-      //{ path: 'usuarios', loadComponent: () => import('./pages/usuarios/usuarios.component').then(m => m.UsuariosComponent) },
       { path: 'inicio', component: InicioComponent },
       { path: 'usuario', component: UsuariosComponent },
       { path: 'rol', component: RolComponent },
@@ -35,29 +33,8 @@ export const routes: Routes = [
       { path: 'empresa', component: EmpresaComponent },
       { path: 'movimiento', component: MovimientoComponent },
       { path: 'metodopago', component: MetodopagoComponent},
-      { path: 'tarjeta', component: TarjetaComponent},
       { path: 'promocion', component: PromocionComponent },
       { path: 'categoria', component: CategoriaComponent},
-      { path: 'notificacion', component: NotificacionComponent},
-      /*
-        { path: 'transacciones', component: TransaccionesComponent },
-         */
     ]
   },
-  /*
-  { path: 'usuarios', redirectTo: '/dashboard/usuarios', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/inicio', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/roles', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/permisos', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/clientes', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/empresas', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/listacat', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/transacciones', pathMatch: 'full' },
-  { path: 'usuarios', redirectTo: '/dashboard/promociones', pathMatch: 'full' },
-   */
-
-  //para manejar rutas inexistentes
-  //{ path: '**', component: NotFoundComponent }  
-
-      
 ];

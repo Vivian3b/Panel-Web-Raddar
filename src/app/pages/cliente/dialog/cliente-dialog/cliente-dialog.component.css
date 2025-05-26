@@ -1,0 +1,21 @@
+.cliente-container {
+  padding: 20px;
+}
+
+.titulo-tabla {
+  margin-bottom: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.fab-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.acciones-header, .acciones-cell {
+  text-align: center;
+}

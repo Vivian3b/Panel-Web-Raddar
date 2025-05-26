@@ -1,6 +1,8 @@
 <div class="promocion-container">
   <h2 class="titulo-tabla">Promociones</h2>
 
+  <app-busqueda (textoCambio)="aplicarFiltro($event)"></app-busqueda>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="idpromocion">
       <th mat-header-cell *matHeaderCellDef> ID Promocion </th>

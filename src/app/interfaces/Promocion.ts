@@ -9,4 +9,6 @@ export interface Promocion {
     vigenciafin: string;
     tipo: string;
     eliminado: number;
+    imagen?: string | null;
+
 }

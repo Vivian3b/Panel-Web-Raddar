@@ -1,43 +1,69 @@
-<h2 mat-dialog-title>Registrar Usuario</h2>
+<h2 mat-dialog-title class="dialog-title">
+  Registrar Usuario
+</h2>
 
-<form [formGroup]="form" (ngSubmit)="guardar()">
-  <mat-dialog-content class="mat-typography">
-    <mat-form-field appearance="outline" class="full-width">
+<div class="dialog-card">
+  <form [formGroup]="form" class="dialog-form">
+
+    <!-- Correo -->
+    <mat-form-field appearance="outline" class="form-field">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email" required>
-      <mat-error *ngIf="form.get('email')?.hasError('required')">
+      <input matInput formControlName="correo" type="email" required />
+      <mat-error *ngIf="form.get('correo')?.hasError('required')">
         El email es obligatorio.
       </mat-error>
-      <mat-error *ngIf="form.get('email')?.hasError('email')">
+      <mat-error *ngIf="form.get('correo')?.hasError('email')">
         Ingrese un email válido.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Contraseña</mat-label>
-      <input matInput formControlName="contraseña" type="password" required>
-      <mat-error *ngIf="form.get('contraseña')?.hasError('required')">
-        La contraseña es obligatoria.
-      </mat-error>
-      <mat-error *ngIf="form.get('contraseña')?.hasError('minlength')">
-        La contraseña debe tener al menos 6 caracteres.
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
+    <!-- Rol (Solo Administrador y Vendedor) -->
+    <mat-form-field appearance="outline" class="form-field">
       <mat-label>Rol</mat-label>
       <mat-select formControlName="rol_idrol" required>
-        <mat-option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</mat-option>
+        <mat-option *ngFor="let rol of roles" [value]="rol.idrol">
+          {{ rol.nombre }}
+        </mat-option>
       </mat-select>
       <mat-error *ngIf="form.get('rol_idrol')?.hasError('required')">
         El rol es obligatorio.
       </mat-error>
     </mat-form-field>
-    <input formControlName="idcreador" type="hidden"> 
-  </mat-dialog-content>
 
-  <mat-dialog-actions align="end">
-    <button mat-button (click)="cerrarDialogo()">Cancelar</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
-  </mat-dialog-actions>
-</form>
+    <!-- Campos de contraseña visibles según cambiarPassword -->
+    <div class="password-section">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password" required minlength="6" />
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
+          La contraseña es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+          La contraseña debe tener al menos 6 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput formControlName="confirmarPassword" type="password" required/>
+        <mat-error *ngIf="form.get('confirmarPassword')?.hasError('required')">
+          La confirmación es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="form.hasError('noCoinciden')">
+          Las contraseñas no coinciden.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <input formControlName="idcreador" type="hidden" />
+
+    <!-- Botones -->
+    <div class="dialog-buttons">
+      <button mat-button class="green-button" (click)="guardar()" [disabled]="form.invalid">
+        Guardar
+      </button>
+      <button mat-button class="green-button" (click)="cerrarDialogo()">Cancelar</button>
+    </div>
+
+  </form>
+</div>

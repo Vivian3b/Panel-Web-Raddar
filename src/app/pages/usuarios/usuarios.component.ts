@@ -8,6 +8,11 @@ import { UsuarioService } from '../../services/usuario.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsuariosDialogComponent } from './dialog/usuarios-dialog/usuarios-dialog.component';
 import { jwtDecode } from 'jwt-decode';
+import { RolService } from '../../services/rol.service';
+import { SolicitarCambioComponent } from '../password/solicitar-cambio/solicitar-cambio.component';
+import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
+import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
+
 
 @Component({
   selector: 'app-usuarios',
@@ -15,42 +20,88 @@ import { jwtDecode } from 'jwt-decode';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    BusquedaComponent
   ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit {
-  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'fechaCreacion', 'fechaActualizacion', 'idcreador','idactualizacion','acciones'];
+  displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'fechaCreacion', 'fechaActualizacion', 'idcreador','idactualizacion','estatus','acciones'];
   dataSource: Usuario[] = [];
 
+
+  dataSourceFiltrada: Usuario[] = [];  // <-- lista filtrada para mostrar
+    filtroTexto: string = '';
+  rolesMap: { [key: number]: string } = {};
+
   private usuarioService = inject(UsuarioService);
+  private rolService = inject(RolService);
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
+    this.obtenerRoles();
+  }
+
+  obtenerRoles() {
+    this.rolService.getRoles().subscribe({
+      next: (roles) => {
+        roles.forEach((rol: any) => {
+          this.rolesMap[rol.idrol] = rol.nombre;
+        });
+        this.obtenerUsuarios();
+      },
+      error: (error) => {
+        console.error('Error al obtener roles:', error);
+        this.obtenerUsuarios();
+      }
+    });
   }
 
   obtenerUsuarios() {
     this.usuarioService.getUsers().subscribe({
       next: (data) => {
-        this.dataSource = data.map(usuario => {
-          const rolTexto = usuario.rol_idrol === 1 ? 'Administrador' : 'Cliente';
-          return {
-            ...usuario,
-            rol: rolTexto,
-            fechaCreacion: this.fixDate(usuario.fechacreacion),
-            fechaActualizacion: this.fixDate(usuario.fechaactualizacion),
-            idcreador: usuario.idcreador,
-            idactualizacion: usuario.idactualizacion
-          } as Usuario;
-        });
+        const usuariosFiltrados = data.filter(usuario =>
+          usuario.rol_idrol === 1 || usuario.rol_idrol === 3
+        );
+
+        this.dataSource = usuariosFiltrados.map(usuario => ({
+          ...usuario,
+          rol: this.rolesMap[usuario.rol_idrol] || 'Desconocido',
+          fechaCreacion: this.fixDate(usuario.fechacreacion),
+          fechaActualizacion: this.fixDate(usuario.fechaactualizacion),
+          idcreador: usuario.idcreador,
+          idactualizacion: usuario.idactualizacion,
+          estatus: usuario.estatus,
+          estatusDisplay: usuario.estatus === 1 ? 'Verificado' : 'No verificado'
+        } as Usuario));
+
+        this.aplicarFiltro();
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
       }
     });
-  }  
+  }
+
+  aplicarFiltro() {
+    if (!this.filtroTexto) {
+      this.dataSourceFiltrada = [...this.dataSource];
+    } else {
+      const filtro = this.filtroTexto.toLowerCase();
+      this.dataSourceFiltrada = this.dataSource.filter(usuario =>
+        Object.values(usuario).some(valor =>
+          valor?.toString().toLowerCase().includes(filtro)
+        )
+      );
+    }
+  }
+
+  onFiltroTextoChange(texto: string) {
+    this.filtroTexto = texto;
+    this.aplicarFiltro();
+  }
+
 
   fixDate(fecha: string): string {
     if (!fecha) return '';
@@ -59,42 +110,50 @@ export class UsuariosComponent implements OnInit {
   }
 
   eliminarUsuario(id: number) {
-    this.usuarioService.deleteUser(id).subscribe({
-      next: () => {
-        this.obtenerUsuarios();
-      },
-      error: (error) => {
-        console.error('Error al eliminar usuario:', error);
-      }
-    });
-  }
+  const usuario = this.dataSource.find(u => u.idusuario === id);
 
-  abrirDialogo(usuario?: Usuario) {
-    // Obtener el token y decodificarlo para obtener el idcreador
-    const token = localStorage.getItem('token');
-    let idcreador = null;
-    if (token) {
-      const decodedToken: any = jwtDecode(token);
-      idcreador = decodedToken.id;  // Aquí estamos asumiendo que el id está en el token
+  const dialogRef = this.dialog.open(EliminadoComponent, {
+    width: '350px'
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.usuarioService.deleteUser(id).subscribe({
+        next: () => {
+          this.obtenerUsuarios();
+        },
+        error: (error) => {
+          console.error('Error al eliminar usuario:', error);
+        }
+      });
     }
+  });
+}
 
-    // Si estamos creando un nuevo usuario, agregar el idcreador al usuario
-    const usuarioConIdCreador = usuario ? { ...usuario, idcreador } : { idcreador };
 
-    // Abrir el diálogo con los datos del usuario (incluyendo idcreador)
+  abrirDialogo() {
+    const token = localStorage.getItem('token');
+    const decodedToken: any = token ? jwtDecode(token) : null;
+
     const dialogRef = this.dialog.open(UsuariosDialogComponent, {
-      data: usuarioConIdCreador
+      data: { idcreador: decodedToken?.idusuario || null }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(emp => emp.idusuario === result.idusuario);
-        if (index !== -1) {
-          this.dataSource[index] = result;
-        } else {
-          this.dataSource.push(result);
-        }
-        this.dataSource = [...this.dataSource];
+        this.obtenerUsuarios();
+      }
+    });
+  }
+
+  abrirDialogoCambioPassword(email: string) {
+    const dialogRef = this.dialog.open(SolicitarCambioComponent, {
+      data: { email }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Correo para cambio de contraseña enviado.');
       }
     });
   }

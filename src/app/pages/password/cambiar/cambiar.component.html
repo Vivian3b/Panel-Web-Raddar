@@ -1,0 +1,25 @@
+<h2>Restablecer contraseña</h2>
+
+<div class="dialog-card">
+  <form [formGroup]="form" class="dialog-form">
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Nueva contraseña</mat-label>
+      <input matInput formControlName="password" type="password" required minlength="6" />
+      <mat-error *ngIf="form.get('password')?.hasError('required')">La contraseña es obligatoria.</mat-error>
+      <mat-error *ngIf="form.get('password')?.hasError('minlength')">Debe tener al menos 6 caracteres.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Confirmar contraseña</mat-label>
+      <input matInput formControlName="confirmarPassword" type="password" required />
+      <mat-error *ngIf="form.get('confirmarPassword')?.hasError('required')">La confirmación es obligatoria.</mat-error>
+      <mat-error *ngIf="form.hasError('noCoinciden')">Las contraseñas no coinciden.</mat-error>
+    </mat-form-field>
+
+    <div class="dialog-buttons">
+      <button mat-button (click)="cambiarPassword()" [disabled]="form.invalid">Actualizar</button>
+    </div>
+
+  </form>
+</div>

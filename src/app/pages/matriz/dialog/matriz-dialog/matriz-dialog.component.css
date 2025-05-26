@@ -19,7 +19,7 @@ mat-form-field {
 
 /* Ajuste del mapa para mejor visualización */
 .map-container {
-  height: 250px;
+  height: 230px;
   width: 100%;
   border-radius: 5px;
   margin-top: 5px;
@@ -33,7 +33,7 @@ mat-form-field {
 }
 
 .button {
-  width: 45%;
+  width: 35%;
   background-color: #0DA697;
   color: white !important;
   font-size: 14px;
@@ -49,4 +49,6 @@ mat-form-field {
   text-align: center;
   font-size: 1.5em;
   margin-bottom: 20px;
+  font-weight: 700;
+  font-family: 'Poppins';
 }
