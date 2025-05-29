@@ -62,3 +62,27 @@
     width: 100%;
   }
 }
+
+.imagen-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.imagen-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.boton-imagen {
+  width: 60%;
+  margin-bottom: 10px;
+  font-size: 14px;
+  padding: 15px 10px;
+}
+
+

@@ -92,19 +92,9 @@ export class PromocionComponent implements OnInit {
       data: promocion || {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if (result.idpromocion) {
-          this.promocionService.updatePromocion(result.idpromocion, result).subscribe({
-            next: () => this.obtenerPromociones(),
-            error: (error) => console.error('Error al actualizar promoción:', error)
-          });
-        } else {
-          this.promocionService.createPromocion(result).subscribe({
-            next: () => this.obtenerPromociones(),
-            error: (error) => console.error('Error al crear promoción:', error)
-          });
-        }
+    dialogRef.afterClosed().subscribe((recargar) => {
+      if (recargar) {
+        this.obtenerPromociones();
       }
     });
   }

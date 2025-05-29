@@ -14,10 +14,13 @@ import { MetodopagoComponent } from './pages/metodopago/metodopago.component';
 import { CategoriaComponent } from './pages/categoria/categoria.component';
 import { PermisoComponent } from './pages/permiso/permiso.component';
 import { ModuloComponent } from './pages/modulo/modulo.component';
+import { VerificacionCuentaComponent } from './pages/verificacion-cuenta/verificacion-cuenta.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  
   { path: 'login', component: LoginComponent },
+  { path: 'confirmar/:token', component: VerificacionCuentaComponent },
+
   
   { 
     path: 'dashboard', 

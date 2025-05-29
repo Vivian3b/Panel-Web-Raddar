@@ -6,6 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Modulo } from '../../interfaces/Modulo';
+import { ModuloDialogComponent } from './dialog/modulo-dialog/modulo-dialog.component';
+import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
+import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
 
 @Component({
   selector: 'app-modulo',
@@ -13,7 +16,8 @@ import { Modulo } from '../../interfaces/Modulo';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    BusquedaComponent
   ],
   templateUrl: './modulo.component.html',
   styleUrl: './modulo.component.css'
@@ -21,6 +25,7 @@ import { Modulo } from '../../interfaces/Modulo';
 export class ModuloComponent implements OnInit{
   displayedColumns: string[] = ['idmodulo', 'permiso_idpermiso', 'rol_idrol', 'idcreador', 'fechacreacion', 'acciones'];
   dataSource: Modulo[] = [];
+  modulos: Modulo[] = [];
 
   private moduloService = inject(ModuloService);
   private dialog = inject(MatDialog);
@@ -33,15 +38,23 @@ export class ModuloComponent implements OnInit{
   obtenerModulos() {
     this.moduloService.getModulos().subscribe({
       next: (data) => {
-        this.dataSource = data.map(modulo => ({
-          ...modulo,
-          fechacreacion: this.fixDate(modulo.fechacreacion)
+        const modulosProcesados = data.map(m => ({
+          ...m,
+          fechacreacion: this.fixDate(m.fechacreacion)
         }));
+        this.modulos = modulosProcesados;
+        this.dataSource = modulosProcesados;
       },
-      error: (error) => {
-        console.error('Error al obtener módulos:', error);
-      }
+      error: (error) => console.error('Error al obtener módulos:', error)
     });
+  }
+
+  aplicarFiltro(filtro: string) {
+    this.dataSource = this.modulos.filter(modulo =>
+      modulo.idmodulo.toString().includes(filtro) ||
+      modulo.permiso_idpermiso.toString().includes(filtro) ||
+      modulo.rol_idrol.toString().includes(filtro)
+    );
   }
 
   // Función para ajustar la fecha sin cambio de zona horaria
@@ -53,19 +66,24 @@ export class ModuloComponent implements OnInit{
 
   // Eliminar un módulo
   eliminarModulo(id: number) {
-    this.moduloService.deleteModulo(id).subscribe({
-      next: () => {
-        this.obtenerModulos();
-      },
-      error: (error) => {
-        console.error('Error al eliminar módulo:', error);
+    const dialogRef = this.dialog.open(EliminadoComponent, {
+      width: '350px',
+      data: { nombre: 'este módulo' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.moduloService.deleteModulo(id).subscribe({
+          next: () => this.obtenerModulos(),
+          error: (error) => {
+            console.error('Error al eliminar módulo:', error);
+          }
+        });
       }
     });
   }
 
-  // Función para abrir el dialogo de crear/editar módulo
   abrirDialogo(modulo?: Modulo) {
-    /*
     const dialogRef = this.dialog.open(ModuloDialogComponent, {
       width: '400px',
       data: modulo || {}
@@ -86,6 +104,5 @@ export class ModuloComponent implements OnInit{
         }
       }
     });
-    */
   }
 }

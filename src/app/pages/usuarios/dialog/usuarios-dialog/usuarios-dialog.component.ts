@@ -13,6 +13,10 @@ import { UsuarioService } from '../../../../services/usuario.service';
 import { Rol } from '../../../../interfaces/Rol';
 import { RolService } from '../../../../services/rol.service';
 
+import { MatDialog } from '@angular/material/dialog';// ajusta ruta si es necesario
+import { ConfirmarDialogComponent } from '../../../confirmar-dialog/confirmar-dialog.component';
+
+
 @Component({
   selector: 'app-usuarios-dialog',
   standalone: true,
@@ -39,6 +43,7 @@ export class UsuariosDialogComponent {
     private dialogRef: MatDialogRef<UsuariosDialogComponent>,
     private usuarioService: UsuarioService,
     private rolService: RolService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
@@ -102,6 +107,10 @@ export class UsuariosDialogComponent {
           error: (err) => console.error(err)
         });
         this.dialogRef.close(respuesta.usuario);
+        this.dialog.open(ConfirmarDialogComponent, {
+          width: '350px'
+        });
+
       },
       error: (error) => console.error('Error al crear usuario:', error)
     });

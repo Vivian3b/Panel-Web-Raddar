@@ -8,6 +8,7 @@ import { RolService } from '../../services/rol.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RolDialogComponent } from './dialog/rol-dialog/rol-dialog.component';
 import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
+import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
 
 @Component({
   selector: 'app-rol',
@@ -60,6 +61,19 @@ export class RolComponent implements OnInit{
     if (!fecha) return '';
     let date = new Date(fecha);
     return new Date(date.getTime() + date.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+  }
+
+  confirmarEliminacion(id: number, nombre: string) {
+    const dialogRef = this.dialog.open(EliminadoComponent, {
+      width: '350px',
+      data: { nombre }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.eliminarRol(id);
+      }
+    });
   }
 
   eliminarRol(id: number) {

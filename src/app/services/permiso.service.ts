@@ -9,7 +9,7 @@ import { Permiso } from '../interfaces/Permiso';
 })
 export class PermisoService {
 
-  private apiUrl = `${appsettings.apiUrl}permiso`; // Asegúrate de que la URL sea la correcta
+  private apiUrl = `${appsettings.apiUrl}permiso`;
 
   constructor(private http: HttpClient) { }
 
@@ -37,13 +37,9 @@ export class PermisoService {
     );
   }
 
-  // Actualizar un permiso existente
+  // Actualizar un permiso existente (URL corregida)
   updatePermiso(id: number, permiso: Permiso): Observable<Permiso> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.patch<Permiso>(`${this.apiUrl}/actualizarPermiso/${id}`, permiso, { headers }).pipe(
+    return this.http.patch<Permiso>(`${this.apiUrl}/${id}`, permiso).pipe(
       catchError((error) => {
         const mensajeError = error.error?.message || JSON.stringify(error);
         console.error('Error al actualizar permiso:', mensajeError);
@@ -54,10 +50,10 @@ export class PermisoService {
 
   // Eliminar un permiso
   deletePermiso(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/eliminarPermiso/${id}`).pipe(
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {
-        console.error('Error al eliminar permiso:', error);
-        return throwError(() => new Error(error));  
+        console.error('Error al eliminar permiso:', error.message || error);
+        return throwError(() => new Error(error.message || 'Error al eliminar permiso'));
       })
     );
   }

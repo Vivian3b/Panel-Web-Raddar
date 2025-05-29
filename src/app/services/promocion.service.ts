@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { appsettings } from '../settings/appsettings';
@@ -12,6 +12,22 @@ export class PromocionService {
   private apiUrl = `${appsettings.apiUrl}promocion`;
 
   constructor(private http: HttpClient) { }
+
+  subirImagenes(promocionId: number, imagenes: File[]): Observable<any> {
+  const formData = new FormData();
+  formData.append('promocion_id', promocionId.toString());
+  imagenes.forEach(imagen => formData.append('images', imagen));
+  return this.http.post(`${appsettings.apiUrl}upload`, formData);
+}
+  eliminarImagenPorUrl(url: string): Observable<any> {
+    const params = new HttpParams().set('url', url);
+    return this.http.delete(`${appsettings.apiUrl}imagen`, { params }).pipe(
+      catchError(error => {
+        console.error('Error al eliminar imagen por URL:', error);
+        return throwError(() => new Error(error?.message || 'Error al eliminar imagen'));
+      })
+    );
+  }
 
   // Obtener todas las promociones
   getPromociones(): Observable<Promocion[]> {
@@ -72,4 +88,9 @@ export class PromocionService {
   getTipos(): string[] {
     return ['Informativa', 'Venta']; // Los valores que provienen del ENUM en la base de datos
   }
+
+  getPromocionPorId(id: number): Observable<Promocion> {
+    return this.http.get<Promocion>(`${this.apiUrl}/${id}`);
+  }
+
 }

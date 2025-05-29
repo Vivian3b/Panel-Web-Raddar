@@ -2,34 +2,23 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Cliente } from '../../interfaces/Cliente';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteDialogComponent } from './dialog/cliente-dialog/cliente-dialog.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../interfaces/Usuario';
 import { jwtDecode } from 'jwt-decode';
-import { MatTableModule } from '@angular/material/table';
 import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
-import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-cliente',
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule,
-    BusquedaComponent
-  ],
+  imports: [SharedModule],
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.css'
 })
 export class ClienteComponent implements OnInit {
   displayedColumns: string[] = ['idusuario', 'correo', 'rol', 'fechaCreacion', 'fechaActualizacion', 'idcreador','idactualizacion','estatus','acciones'];
   dataSource: Cliente[] = [];
-
-  dataSourceFiltrada: Cliente[] = [];  // <-- lista filtrada para mostrar
-  filtroTexto: string = '';  // <-- filtro actual
+  dataSourceFiltrada: Cliente[] = []; 
+  filtroTexto: string = '';
 
   private usuarioService = inject(UsuarioService);
   private dialog = inject(MatDialog);
@@ -81,7 +70,6 @@ export class ClienteComponent implements OnInit {
     });
   }
 
-
   abrirDialogo(cliente?: Cliente) {
     const token = localStorage.getItem('token');
     let idcreador = null;
@@ -91,7 +79,6 @@ export class ClienteComponent implements OnInit {
     }
 
     const clienteConIdCreador = cliente ? { ...cliente, idcreador } : { idcreador };
-
     const dialogRef = this.dialog.open(ClienteDialogComponent, {
       data: clienteConIdCreador
     });

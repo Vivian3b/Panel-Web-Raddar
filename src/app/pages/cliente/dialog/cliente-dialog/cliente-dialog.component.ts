@@ -1,26 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { jwtDecode } from 'jwt-decode';
 import { UsuarioService } from '../../../../services/usuario.service';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-cliente-dialog',
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    ReactiveFormsModule
-  ],
+  imports: [SharedModule],
   templateUrl: './cliente-dialog.component.html',
   styleUrl: './cliente-dialog.component.css'
 })
@@ -74,7 +61,7 @@ export class ClienteDialogComponent {
     const confirm = group.get('confirmarPassword')?.value || '';
     return pass === confirm ? null : { noCoinciden: true };
   }
-
+/*
   guardar() {
     if (this.form.invalid) return;
 
@@ -113,7 +100,7 @@ export class ClienteDialogComponent {
         error: (error) => console.error('Error al crear cliente:', error)
       });
     }
-  }
+  }*/
 
   cerrarDialogo() {
     this.dialogRef.close();

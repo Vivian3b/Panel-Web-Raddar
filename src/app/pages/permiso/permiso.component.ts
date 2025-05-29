@@ -7,6 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { PermisoDialogComponent } from './dialog/permiso-dialog/permiso-dialog.component';
+import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
+import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-permiso',
@@ -14,7 +17,8 @@ import { PermisoDialogComponent } from './dialog/permiso-dialog/permiso-dialog.c
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    BusquedaComponent
   ],
   templateUrl: './permiso.component.html',
   styleUrl: './permiso.component.css'
@@ -22,6 +26,7 @@ import { PermisoDialogComponent } from './dialog/permiso-dialog/permiso-dialog.c
 export class PermisoComponent {
   displayedColumns: string[] = ['idpermiso', 'nombre', 'idcreador', 'idactualizacion', 'fechacreacion', 'fechaactualizacion', 'acciones'];
   dataSource: Permiso[] = [];
+  permisos: Permiso[] = [];
 
   private permisoService = inject(PermisoService);
   private dialog = inject(MatDialog);
@@ -34,15 +39,22 @@ export class PermisoComponent {
   obtenerPermisos() {
     this.permisoService.getPermisos().subscribe({
       next: (data) => {
-        this.dataSource = data.map(permiso => ({
-          ...permiso,
-          fechacreacion: this.fixDate(permiso.fechacreacion)
+        const permisosProcesados = data.map(p => ({
+          ...p,
+          fechacreacion: this.fixDate(p.fechacreacion),
+          fechaactualizacion: this.fixDate(p.fechaactualizacion)
         }));
+        this.permisos = permisosProcesados; // lista completa
+        this.dataSource = permisosProcesados;
       },
-      error: (error) => {
-        console.error('Error al obtener permisos:', error);
-      }
+      error: (error) => console.error('Error al obtener permisos:', error)
     });
+  }
+
+  aplicarFiltro(filtro: string) {
+    this.dataSource = this.permisos.filter(permiso =>
+      permiso.nombre.toLowerCase().includes(filtro)
+    );
   }
 
   // Función para ajustar la fecha sin cambio de zona horaria
@@ -55,12 +67,17 @@ export class PermisoComponent {
 
   // Eliminar un permiso
   eliminarPermiso(id: number) {
-    this.permisoService.deletePermiso(id).subscribe({
-      next: () => {
-        this.obtenerPermisos();
-      },
-      error: (error) => {
-        console.error('Error al eliminar permiso:', error);
+    const dialogRef = this.dialog.open(EliminadoComponent, {
+      width: '350px',
+      data: { nombre: 'permiso' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.permisoService.deletePermiso(id).subscribe({
+          next: () => this.obtenerPermisos(),
+          error: (error) => console.error('Error al eliminar permiso:', error)
+        });
       }
     });
   }

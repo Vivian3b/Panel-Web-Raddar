@@ -12,7 +12,6 @@ export class MovimientoService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todos los movimientos
   getMovimientos(): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(this.apiUrl).pipe(
       catchError(error => {
@@ -22,7 +21,6 @@ export class MovimientoService {
     );
   }
 
-  // Eliminar un movimiento
   deleteMovimiento(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {

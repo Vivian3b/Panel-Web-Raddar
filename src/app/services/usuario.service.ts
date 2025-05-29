@@ -22,7 +22,7 @@ export class UsuarioService {
       map((usuarios: Usuario[]) => usuarios)
     );
   }
-
+/*
   createUser(usuario: Usuario): Observable<{ usuario: Usuario, token: string }> {
   const token = localStorage.getItem('token');
   if (!token) return throwError(() => new Error('No se encontró el token JWT'));
@@ -43,6 +43,7 @@ export class UsuarioService {
     })
   );
 }
+  */
 
 
   updateUser(id: number, usuario: Usuario): Observable<Usuario> {
@@ -76,7 +77,7 @@ export class UsuarioService {
   }
 
   crearVendedor(data: any): Observable<any> {
-    return this.http.post<any>(`${appsettings.apiUrl}/vendedor`, data).pipe(
+    return this.http.post<any>(`${appsettings.apiUrl}vendedor`, data).pipe(
       catchError(error => {
         console.error('Error al crear vendedor:', error);
         return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
@@ -85,11 +86,22 @@ export class UsuarioService {
   }
 
   crearAdministrador(data: any): Observable<any> {
-    return this.http.post<any>(`${appsettings.apiUrl}/administrador`, data).pipe(
+    return this.http.post<any>(`${appsettings.apiUrl}administrador`, data).pipe(
       catchError(error => {
         console.error('Error al crear administrador:', error);
         return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
       })
     );
   }
+
+  resetPasswordRequest(email: string): Observable<any> {
+    return this.http.post(`${appsettings.apiUrl}resetpassword-request`, { email }).pipe(
+      catchError(error => {
+        console.error('Error al enviar solicitud de restablecimiento:', error);
+        return throwError(() => new Error(error?.error?.message || JSON.stringify(error)));
+      })
+    );
+  }
+
+
 }

@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PasswordService } from '../../../services/password.service';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-solicitar-cambio',
@@ -26,21 +27,25 @@ export class SolicitarCambioComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { email: string },
     private passwordService: PasswordService,
-    private dialogRef: MatDialogRef<SolicitarCambioComponent>
+    private dialogRef: MatDialogRef<SolicitarCambioComponent>,
+    private usuarioService: UsuarioService
   ) {
     this.email = data.email;
   }
 
   aceptar() {
-    this.passwordService.solicitarCambioPassword(this.email).subscribe({
+    this.usuarioService.resetPasswordRequest(String(this.email)).subscribe({
+
       next: () => {
         alert('Se ha enviado un correo para restablecer la contraseña.');
         this.dialogRef.close(true);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error al enviar solicitud:', err);
         alert('No se pudo enviar el correo. Intenta más tarde.');
       }
     });
+
   }
 
   cancelar() {

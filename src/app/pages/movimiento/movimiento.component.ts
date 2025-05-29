@@ -6,6 +6,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MovimientoService } from '../../services/movimiento.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Movimiento } from '../../interfaces/Movimiento';
+import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
+import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
 
 @Component({
   selector: 'app-movimiento',
@@ -13,15 +15,18 @@ import { Movimiento } from '../../interfaces/Movimiento';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    BusquedaComponent
   ],
   templateUrl: './movimiento.component.html',
   styleUrl: './movimiento.component.css'
 })
 export class MovimientoComponent implements OnInit{
 
-  displayedColumns: string[] = ['idmovimiento', 'cliente_idcliente', 'metododepago_idmetododepago', 'promocion_idpromocion', 'fechamoviento', 'montototal', 'iva', 'montosubtotal', 'acciones'];
+  displayedColumns: string[] = ['idmovimiento', 'cliente_idcliente', 'metododepago_idmetododepago', 'promocion_idpromocion', 'fechamoviento', 'montototal', 'iva', 'acciones'];
   dataSource: Movimiento[] = [];
+  todasLasMovimientos: Movimiento[] = [];
+  filtroTexto: string = '';
 
   private movimientoService = inject(MovimientoService);
   private dialog = inject(MatDialog);
@@ -33,8 +38,8 @@ export class MovimientoComponent implements OnInit{
   obtenerMovimientos() {
     this.movimientoService.getMovimientos().subscribe({
       next: (data) => {
-        // Filtra el campo 'eliminado' para no mostrarlo en la tabla
-        this.dataSource = data.filter(movimiento => movimiento.eliminado !== 1);
+        this.todasLasMovimientos = data.filter(movimiento => movimiento.eliminado !== 1);
+        this.aplicarFiltro(this.filtroTexto);
       },
       error: (error) => {
         console.error('Error al obtener movimientos:', error);
@@ -42,18 +47,33 @@ export class MovimientoComponent implements OnInit{
     });
   }
 
-  eliminarMovimiento(id: number) {
-    this.movimientoService.deleteMovimiento(id).subscribe({
-      next: () => {
-        this.obtenerMovimientos();
-      },
-      error: (error) => {
-        console.error('Error al eliminar movimiento:', error);
-      }
-    });
+  aplicarFiltro(texto: string) {
+    this.filtroTexto = texto;
+    const filtro = texto.trim().toLowerCase();
+    this.dataSource = this.todasLasMovimientos.filter(movimiento =>
+      movimiento.idmovimiento.toString().includes(filtro) ||
+      movimiento.cliente_idcliente.toString().includes(filtro) ||
+      movimiento.metododepago_idmetododepago.toString().includes(filtro) ||
+      movimiento.promocion_idpromocion.toString().includes(filtro) ||
+      (movimiento.fechamoviento && movimiento.fechamoviento.toLowerCase().includes(filtro)) ||
+      movimiento.montototal.toString().includes(filtro) ||
+      movimiento.iva.toString().includes(filtro)
+    );
   }
 
-  abrirDialogo(movimiento?: Movimiento) {
-    // Abre el diálogo para agregar o editar el movimiento
+  eliminarMovimiento(id: number) {
+    const dialogRef = this.dialog.open(EliminadoComponent, {
+      width: '350px',
+      data: { nombre: 'movimiento' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.movimientoService.deleteMovimiento(id).subscribe({
+          next: () => this.obtenerMovimientos(),
+          error: (error) => console.error('Error al eliminar movimiento:', error)
+        });
+      }
+    });
   }
 }

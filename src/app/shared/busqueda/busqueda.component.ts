@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { SharedModule } from '../shared.module';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-busqueda',
-  imports: [SharedModule, FormsModule],
+  imports: [SharedModule,],
   templateUrl: './busqueda.component.html',
   styleUrl: './busqueda.component.css'
 })

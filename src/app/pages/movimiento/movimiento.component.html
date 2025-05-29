@@ -1,6 +1,8 @@
 <div class="movimiento-container">
   <h2 class="titulo-tabla">Movimientos</h2>
 
+  <app-busqueda (textoCambio)="aplicarFiltro($event)"></app-busqueda>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="idmovimiento">
       <th mat-header-cell *matHeaderCellDef> ID Movimiento </th>
@@ -37,17 +39,9 @@
       <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="montosubtotal">
-      <th mat-header-cell *matHeaderCellDef> Monto Subtotal </th>
-      <td mat-cell *matCellDef="let element"> {{element.montosubtotal}} </td>
-    </ng-container>
-
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>
       <td mat-cell *matCellDef="let element" class="acciones-cell">
-        <button mat-icon-button color="primary" (click)="abrirDialogo(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
         <button mat-icon-button color="warn" (click)="eliminarMovimiento(element.idmovimiento)">
           <mat-icon>delete</mat-icon>
         </button>
@@ -57,8 +51,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
-  <button mat-fab color="primary" class="fab-button" (click)="abrirDialogo()">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>

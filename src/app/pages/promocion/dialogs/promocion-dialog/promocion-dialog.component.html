@@ -1,5 +1,24 @@
 <h2 mat-dialog-title class="dialog-title">{{ form.value.idpromocion ? 'Editar' : 'Agregar' }} Promoción</h2> 
 <form [formGroup]="form" class="dialog-form">
+
+  <label>Agrega una imagen:</label>
+<button mat-button class="button boton-imagen" (click)="fileInput.click()">Elegir imágenes</button>
+
+<input #fileInput type="file" multiple (change)="onImageSelected($event)" hidden>
+
+
+
+  <div *ngIf="imagenesExistentes.length > 0">
+    <p>{{ form.value.idpromocion ? 'Imágenes actuales:' : 'Imágenes seleccionadas:' }}</p>
+    <div *ngFor="let imagen of imagenesExistentes; let i = index" style="display:inline-block; margin-right: 8px;">
+      <img [src]="imagen.url" alt="Imagen" width="100" style="border:1px solid #ccc; border-radius:4px;">
+      <button mat-icon-button color="warn" (click)="eliminarImagenExistente(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+
   <mat-form-field class="form-field" appearance="outline">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" required>

@@ -1,6 +1,8 @@
 <div class="permiso-container">
     <h2 class="titulo-tabla">Permisos</h2>
 
+    <app-busqueda (textoCambio)="aplicarFiltro($event)"></app-busqueda>
+
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="idpermiso">
         <th mat-header-cell *matHeaderCellDef> ID Permiso </th>

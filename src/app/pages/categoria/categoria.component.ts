@@ -5,13 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoriaDialogComponent } from './dialog/categoria-dialog/categoria-dialog.component';
 import { SharedModule } from '../../shared/shared.module';
 import { EliminadoComponent } from '../../shared/eliminado/eliminado.component';
-import { BusquedaComponent } from '../../shared/busqueda/busqueda.component';
 
 @Component({
   selector: 'app-categoria',
-  imports: [SharedModule,
-    BusquedaComponent
-  ],
+  imports: [SharedModule],
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.css'
 })
